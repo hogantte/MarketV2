@@ -1,0 +1,45 @@
+*{
+
+}
+
+body{
+    background-color: #e8e8e8;
+    margin: 0px;
+    padding: 0px;
+}
+
+.ustmenu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #2F6B3F;
+    color: white;
+    font-family: "Fira Sans", sans-serif;
+    font-weight: 700;
+    box-shadow: 4px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.logo a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    gap: 10px;
+}
+
+.logo{
+    display: flex;
+}
+
+.ust-linkler {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+.ustmenu a {
+    color: white;
+    font-size: 18px;
+}
+
