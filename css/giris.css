@@ -1,0 +1,109 @@
+* {
+    font-family: "Fira Sans", sans-serif;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e8e8e8;
+    margin: 0;
+    min-height: 100vh;
+}
+
+.giris-form {
+    display: flex;
+
+    align-items: center;
+    flex-direction: column;
+    background-color: #171717;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 400px;
+    height: 530px;
+    border-radius: 25px;
+    box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.6);
+}
+
+.baslik {
+    color: white;
+    margin: 60px;
+    font-size: 45px;
+}
+
+
+
+.alan {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border-radius: 25px;
+    padding: 10px;
+    border: none;
+    outline: none;
+    color: white;
+    background-color: #171717;
+    box-shadow: inset 2px 5px 10px rgb(5, 5, 5);
+    margin: 10px;
+}
+
+
+.input-ikon {
+    stroke: white;
+}
+
+.alan input {
+    background: none;
+    border: none;
+    outline: none;
+    width: 100%;
+    color: #d3d3d3;
+    font-size: 20px;
+}
+
+.par-res{
+    font-size: 15px;
+    margin-left: 105px;
+    margin-top: 5px;
+    color: white;
+    transition:  0.4s ease-in-out;
+    
+}
+
+.par-res:hover{
+    color: red;
+    
+}
+
+
+.giris-form button{
+    margin-top: 50px;
+    background-color: #252525;
+    border: none;
+    color: white;
+    padding: 10px;
+    width: 265px;
+    font-size: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.4s ease-in-out;
+}
+
+.giris-form button:hover{
+    background-color: black;
+}
+
+
+.kayit{
+    margin-top: 15px;
+    margin-left: 205px;
+    font-size: 15px;
+    color: white;
+    transition: 0.4s ease-in-out;
+}
+
+.kayit:hover{
+    color: rgb(50, 50, 248);
+    font-size: 17px;
+}

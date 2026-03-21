@@ -1,5 +1,5 @@
 *{
-
+font-family: "Fira Sans", sans-serif;
 }
 
 body{
@@ -13,7 +13,7 @@ body{
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: #2F6B3F;
+    background-color: #273F4F;
     color: white;
     font-family: "Fira Sans", sans-serif;
     font-weight: 700;
