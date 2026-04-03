@@ -1,0 +1,95 @@
+.urunler {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+
+
+
+.card{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    width: 400px;
+    height: 450px;
+    box-shadow: 5px 2px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 40px;
+    padding: 10px;
+    margin-top: 100px;
+}
+
+.urun-foto{
+    margin-bottom: 20px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 7px;
+    
+}
+
+.urun-foto img{
+    width: 70%;     
+    height: 200px;   
+    object-fit: contain; 
+    border-radius: 15px; 
+
+}
+
+.urun-adi{
+    width: 400px;
+    margin-bottom: 5px;
+    font-size: 20px;
+    font-weight: 600;
+    margin-left: 30px;
+    margin-top: 10px;
+}
+
+.urun-aciklama{
+    margin-left: 30px;
+    text-align: left;
+    color: gray;
+    font-size: 15px;
+    height: 130px;
+    
+}
+
+
+.urun-fiyat-satinal{
+    display: flex;
+    width: 400px;
+    justify-content: space-between;
+    align-items: center;
+}
+.fiyat{
+    margin-left: 30px;
+    font-size: 30px;
+    font-weight: 500;
+    color: #273F4F;
+}
+
+.sepete-ekle{
+    border-radius: 50%;
+    background-color: rgb(0, 156, 0);
+    border: none;
+    width: 60px;
+    height: 60px;
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    transition: ease-in 0.2s all;
+}
+
+.sepete-ekle svg {
+    stroke: white;
+    filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.2));
+}
+
+.sepete-ekle:hover{
+    transform: translateY(-2px) scale(1.06);
+    box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.3);
+}

@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="tr">
 
@@ -8,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Market</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/index.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,6 +31,35 @@
         </ul>
     </div>
 
+
+    <div class="urunler">
+        <div class="card">
+            <div class="urun-foto">
+                <img src="assets/kangal.jpg" alt="ürün-fotoğrafı">
+            </div>
+
+            <div class="urun-adi">
+                <span>Aksaray Malaklısı</span>
+            </div>
+            <div class="urun-aciklama">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, molestias voluptatum ut nam eos eum
+                odio sequi cupiditate dicta alias, blanditiis assumenda, modi reprehenderit error temporibus dolore
+                magni eaque repudiandae!
+            </div>
+            <div class="urun-fiyat-satinal">
+                <span class="fiyat">200Tl</span>
+                <button class="sepete-ekle">
+                    <input type="hidden" name="urun_id" value="">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-plus-icon lucide-plus">
+                        <path d="M5 12h14" />
+                        <path d="M12 5v14" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
