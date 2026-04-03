@@ -26,7 +26,7 @@
         </a>
         <ul class="ust-linkler">
             <li><a href="urunler.php">Ürünler</a></li>
-            <li><a href="#">Sepet</a></li>
+            <li><a href="sepet.php">Sepet</a></li>
             <li><a href="#">Hesabım</a></li>
         </ul>
     </div>
