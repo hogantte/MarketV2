@@ -1,0 +1,98 @@
+.urunler{
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.sepet{
+    padding: 30px;
+    background-color: #36576d;
+    width: 600px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+    color: white;
+    border-radius: 15px;
+}
+
+.sepetteki-urun{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 450;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+
+.baslik{
+    display: flex;
+    font-size: 22px;
+    font-weight: 500;
+    gap: 130px;
+    padding-bottom: 10px;
+}
+
+/* From Uiverse.io by cssbuttons-io */ 
+button {
+ width: 100px;
+ height: 40px;
+ cursor: pointer;
+ display: flex;
+ align-items: center;
+ background: red;
+ border: none;
+ border-radius: 5px;
+ box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+ background: #e62222;
+}
+
+button, button span {
+ transition: 200ms;
+}
+
+button .text {
+ transform: translateX(8px);
+ color: white;
+ font-weight: 450;
+}
+
+button .icon {
+ position: absolute;
+ border-left: 1px solid #c41b1b;
+ transform: translateX(52px);
+ height: 40px;
+ width: 40px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+}
+
+button svg {
+ width: 13px;
+ fill: #eee;
+}
+
+button:hover {
+ background: #ff3636;
+}
+
+button:hover .text {
+ color: transparent;
+}
+
+button:hover .icon {
+ width: 100px;
+ border-left: none;
+ transform: translateX(-2px);
+}
+
+button:focus {
+ outline: none;
+}
+
+button:active .icon svg {
+ transform: scale(0.9);
+}
