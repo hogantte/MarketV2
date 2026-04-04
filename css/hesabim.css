@@ -1,0 +1,29 @@
+.hesabim{
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.hesabim-card{
+    padding: 30px;
+    background-color: #36576d;
+    width: 400px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+    color: white;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+}
+
+
+.satir{
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 550;
+}

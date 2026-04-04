@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MarketV2</title>
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/sepet.css">
+    <link rel="stylesheet" href="css/hesabim.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,32 +26,21 @@
         <ul class="ust-linkler">
             <li><a href="urunler.php">Ürünler</a></li>
             <li><a href="sepet.php">Sepet</a></li>
-            <li><a href="hesabim    .php">Hesabım</a></li>
+            <li><a href="hesabim.php">Hesabım</a></li>
         </ul>
     </div>
 
 
-    <div class="urunler">
-        <div class="sepet">
-            <div class="baslik">
-                <span>Ürünün Adı</span>
-                <span>Ürünün Fiyatı</span>
-            </div>
-            <div class="sepetteki-urun">
-                <span>Kangal</span>
-                <span>200.00 Tl</span>
-                <div class="kaldir"><!-- From Uiverse.io by cssbuttons-io -->
-                    <button class="noselect"><span class="text">Sil</span><span class="icon"><svg
-                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                <path
-                                    d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z">
-                                </path>
-                            </svg></span></button>
-                </div>
-            </div>
+    <div class="hesabim">
+        <div class="hesabim-card">
+            <div class="satir"><span>Kullanıcı Adın :</span> <span>Admin</span> </div>
+            <div class="satir"><span>Mailin :</span> <span>admin@admin.com</span> </div>
+            <div class="satir"><span>Kayıt Tarihi :</span> <span>4-4-2026</span></div>
+            <br><br>
+
+            
         </div>
     </div>
-
 </body>
 
 </html>
