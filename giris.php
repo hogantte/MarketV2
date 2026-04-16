@@ -1,3 +1,38 @@
+<?php
+session_start();
+include_once 'baglan.php';
+
+$durum = "";
+
+if($_POST){
+    $kullanici_adi = htmlspecialchars(trim($_POST["kullanici_adi"]));
+    $parola = $_POST["kullanici_parola"];
+
+    if(empty($kullanici_adi) || empty($parola)){
+        $durum = "Lütfen Bütün Alanları Doldurunuz";
+    } else{
+        $sorgu = $db->prepare("SELECT * FROM kullanicilar WHERE kullanici_adi = ?");
+        $sorgu->execute([$kullanici_adi]);
+        $kullanici = $sorgu->fetch(PDO::FETCH_ASSOC);
+        
+
+        if($kullanici && password_verify($parola , $kullanici["kullanici_parola"])){
+            $_SESSION["kullanici_id"] = $kullanici["id"];
+            $_SESSION["kullanici_adi"] = $kullanici["kullanici_adi"];
+            $_SESSION["giris"] = true;
+
+            header("Location: index.php");
+            exit();
+        }else{
+            $durum = "Kullanıcı Adı Veya Parola Hatalı!";
+        }
+    }
+
+
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="tr">
 
@@ -16,6 +51,7 @@
 
 <body>
     <form method="POST" class="giris-form">
+        <span class="durum"><?= $durum ?></span>
         <p class="baslik">Giriş Yap</p>
 
         <div class="alan">
