@@ -25,9 +25,15 @@ body {
     box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.6);
 }
 
+.durum{
+    height: 20px;
+    color: red;
+    margin-top: 10px;
+}
+
 .baslik {
     color: white;
-    margin: 40px;
+    margin-top: 10px;
     margin-bottom: 20px;
     font-size: 45px;
 }

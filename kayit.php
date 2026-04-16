@@ -1,3 +1,39 @@
+<?php
+require_once 'baglan.php';
+
+$durum = "";
+
+if ($_POST) {
+    $kullanici_adi = htmlspecialchars(trim($_POST["kullanici_adi"]));
+    $kullanici_mail = htmlspecialchars(trim($_POST["kullanici_mail"]));
+    $parola = $_POST["parola"];
+    $parola_tekrar = $_POST["parola_tekrar"];
+
+    if (empty($kullanici_adi) || empty($kullanici_mail) || empty($parola) || empty($parola_tekrar)) {
+        $durum = "Lütfen Bütün Alanları Doldurunuz!";
+    } elseif ($parola !== $parola_tekrar) {
+        $durum = "Parolalar Uyuşmuyor Tekrar Deneyiniz!";
+    } else {
+        $kontrol = $db->prepare("SELECT COUNT(*) FROM kullanicilar WHERE kullanici_adi = ? OR kullanici_mail = ?");
+        $kontrol->execute([$kullanici_adi, $kullanici_mail]);
+        $sayi = $kontrol->fetchColumn();
+        if ($sayi > 0) {
+            $durum = "Kullanıcı Adı Veya Mail Zaten Kullanımda!";
+        } else {
+            $hashliParola = password_hash($parola, PASSWORD_DEFAULT);
+
+            $kaydet = $db->prepare("INSERT INTO kullanicilar (kullanici_mail , kullanici_adi , kullanici_parola) VALUES( ? , ? , ?)");
+            $sonuc = $kaydet->execute([$kullanici_mail, $kullanici_adi, $hashliParola]);
+
+            $durum = "Kayıt Başarılı";
+            header("Location: giris.php?kb");
+            exit;
+        }
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,6 +53,7 @@
 
 <body>
     <form method="POST" class="giris-form">
+        <span class="durum"><?= $durum ?></span>
         <p class="baslik">Kayıt Ol</p>
 
         <div class="alan">
@@ -46,7 +83,7 @@
                 <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
                 <path d="M7 11V7a5 5 0 0 1 10 0v4" />
             </svg>
-            <input type="password" placeholder="Parolan" name="kullanici_parola" required>
+            <input type="password" placeholder="Parolan" name="parola" required>
         </div>
 
         <div class="alan">
@@ -56,13 +93,13 @@
                 <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
                 <path d="M7 11V7a5 5 0 0 1 10 0v4" />
             </svg>
-            <input type="password" placeholder="Parolan Tekrar" name="kullanici_parola_tekrar" required>
+            <input type="password" placeholder="Parolan Tekrar" name="parola_tekrar" required>
         </div>
 
 
         <a href="#" class="par-res">Şifrenizimi Unuttunuz?</a>
 
-        <button>Giriş Yap</button>
+        <button>Kayıt Ol</button>
 
         <a href="giris.php" class="kayit">Giriş Yap</a>
 
