@@ -1,9 +1,9 @@
 <?php
-include_once  'baglan.php';
+require_once  'baglan.php';
 session_start();
 
 if (!isset($_SESSION["giris"])) {
-    header("Location: index.php");
+    header("Location: giris.php?hata=izinsiz-erisim");
     exit;
 }else{
     
@@ -12,6 +12,11 @@ if (!isset($_SESSION["giris"])) {
     $sorgu->execute([$_SESSION["kullanici_id"]]);
     $kullanici = $sorgu->fetch(PDO::FETCH_ASSOC);
 
+    if (!$kullanici) {
+    session_destroy();
+    header("Location: giris.php?hata=kullanici-bulunamadi");
+    exit;
+}
 
 }
 
@@ -55,9 +60,9 @@ if (!isset($_SESSION["giris"])) {
         <div class="hesabim-card">
             <div class="satir"><span>Kullanıcı Adın :</span> <span><?= $_SESSION["kullanici_adi"] ?></span> </div>
             <div class="satir"><span>Mailin :</span> <span><?= $kullanici["kullanici_mail"] ?></span> </div>
-            <div class="satir"><span>Kayıt Tarihi :</span> <span><?= $kullanici["kayit_tarih"] ?></span></div>
-            <br><br>
-
+            <div class="satir"><span>Kayıt Tarihi :</span> <span><?= date("d.m.Y", strtotime($kullanici["kayit_tarih"])) ?></span></div>
+            
+            <div class="satir"><a href="cikis.php">Çıkış Yap</a></div>
             
         </div>
     </div>

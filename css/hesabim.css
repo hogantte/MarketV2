@@ -27,3 +27,11 @@
     font-size: 18px;
     font-weight: 550;
 }
+
+.satir a{
+    margin-left: 327px;
+    color: red;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 18px;
+}
