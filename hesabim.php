@@ -1,3 +1,23 @@
+<?php
+include_once  'baglan.php';
+session_start();
+
+if (!isset($_SESSION["giris"])) {
+    header("Location: index.php");
+    exit;
+}else{
+    
+
+    $sorgu = $db->prepare("SELECT kullanici_mail , kayit_tarih FROM kullanicilar WHERE id = ?");
+    $sorgu->execute([$_SESSION["kullanici_id"]]);
+    $kullanici = $sorgu->fetch(PDO::FETCH_ASSOC);
+
+
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="tr">
 
@@ -33,9 +53,9 @@
 
     <div class="hesabim">
         <div class="hesabim-card">
-            <div class="satir"><span>Kullanıcı Adın :</span> <span>Admin</span> </div>
-            <div class="satir"><span>Mailin :</span> <span>admin@admin.com</span> </div>
-            <div class="satir"><span>Kayıt Tarihi :</span> <span>4-4-2026</span></div>
+            <div class="satir"><span>Kullanıcı Adın :</span> <span><?= $_SESSION["kullanici_adi"] ?></span> </div>
+            <div class="satir"><span>Mailin :</span> <span><?= $kullanici["kullanici_mail"] ?></span> </div>
+            <div class="satir"><span>Kayıt Tarihi :</span> <span><?= $kullanici["kayit_tarih"] ?></span></div>
             <br><br>
 
             
