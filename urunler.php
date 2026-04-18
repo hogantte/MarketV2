@@ -1,3 +1,53 @@
+<?php
+session_start();
+require_once 'baglan.php';
+include 'ustmenu.php';
+
+$kategori_sor = $db->query("SELECT * FROM kategoriler");
+$kategoriler = $kategori_sor->fetchAll(PDO::FETCH_ASSOC);
+
+
+$durum = "";
+
+if (!isset($_SESSION["giris"])) {
+    header("Location: giris.php?hata=izinsiz-erisim");
+    exit;
+}
+
+if ($_POST) {
+    $urun_adi = $_POST['urun_adi'];
+    $urun_aciklama = $_POST['urun_aciklama'];
+    $urun_fiyat = $_POST['urun_fiyat'];
+    $urun_stok = $_POST['urun_stok'];
+    $kategori = $_POST['kategori_id'];
+
+
+    if (empty($urun_adi) || empty($urun_aciklama) || empty($urun_fiyat) || empty($urun_stok) || empty($kategori)) {
+        $durum = "Lütfen Bütün Alanları Doldurun!";
+    } else {
+
+
+        $hedef_klasor = "urun-img/";
+        $dosya_adi = $_SESSION["kullanici_id"] . "_" . time() . basename($_FILES["urun_foto"]["name"]);
+        $hedef_yol = $hedef_klasor . $dosya_adi;
+
+        if (move_uploaded_file($_FILES["urun_foto"]["tmp_name"], $hedef_yol)) {
+
+            $kaydet = $db->prepare("INSERT INTO urunler (ekleyen_id , urun_ad , urun_aciklama , urun_fiyat , urun_stok , kategori_id , urun_foto) VALUES (?,?,?,?,?,?,?)");
+            $sonuc = $kaydet->execute([$_SESSION["kullanici_id"], $urun_adi, $urun_aciklama, $urun_fiyat, $urun_stok, $kategori, $dosya_adi]);
+
+            if ($sonuc) {
+                $durum = "Ürün Başarıyla Eklendi!";
+            } else {
+                $durum = "Bir Sorun Oluştu Tekrar Deneyin!";
+            }
+        }
+    }
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="tr">
 
@@ -22,12 +72,13 @@
     <div class="urunler">
 
 
-        <form action="" method="post" class="ekle_card">
+        <form action="" method="post" class="ekle_card" enctype="multipart/form-data">
+            <span style="font-size: 18px;  color: red; height: 22px;"><?= $durum ?></span>
             <p>Ürün Ekle</p>
             <input type="text" placeholder="Ürünün İsmi" required class="inputlar" name="urun_adi">
             <textarea name="urun_aciklama" id="" placeholder="Ürünün Açıklaması" rows="4"></textarea>
             <input type="number" step="0.01" placeholder="Ürünün Fiyatı" required class="inputlar" name="urun_fiyat">
-            <input type="number" placeholder="Stok Adedi" required class="inputlar" name="urun_fiyat">
+            <input type="number" placeholder="Stok Adedi" required class="inputlar" name="urun_stok">
 
             <select name="kategori_id" required>
                 <option value="">Kategori Seçin</option>
@@ -40,7 +91,7 @@
 
 
             <div class="urun-foto-div">
-                <input type="file" name="urun_foto" id="urun-foto" accept="image/*" required name="urun_gorsel">
+                <input type="file" name="urun_foto" id="urun-foto" accept="image/*" required>
                 <label for="urun-foto" class="urun-foto-label">
                     <span>Ürününüzün Görselini Yükleyin</span>
                 </label>
@@ -55,7 +106,6 @@
                     </svg>
                 </span>
             </button>
-
 
 
 

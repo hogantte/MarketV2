@@ -22,7 +22,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
     background-color: white;
     width: 400px;
     height: 560px;
@@ -30,11 +30,14 @@
     border-radius: 40px;
     font-size: 23px;
     font-weight: 550;
-    padding: 10px;
+    padding: 5px;
 }
 
 .ekle_card p {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    margin-top: 0px;
+    font-size: 25px;
+   
 }
 
 .ekle_card .inputlar {
@@ -47,7 +50,7 @@
     border: none;
     font-weight: 550;
     font-size: 16px;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
 }
 
 .ekle_card textarea {
@@ -58,6 +61,7 @@
     font-size: 16px;
     border-radius: 5px;
     padding: 5px;
+    margin-bottom: 10px;
 }
 
 .ekle_card select {
@@ -70,6 +74,7 @@
     font-weight: 420;
     font-size: 16px;
     color: rgb(104, 104, 104);
+    margin-bottom: 10px;
 }
 
 #urun-foto {
@@ -84,6 +89,7 @@
     text-decoration: underline;
     cursor: pointer;
     text-shadow: 2px 3px 7px rgba(0, 0, 0, 0.23);
+    
 }
 
 
@@ -99,6 +105,8 @@
     border: none;
     border-radius: 5px;
     box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.23);
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 button,
