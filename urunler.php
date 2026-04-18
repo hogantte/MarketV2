@@ -1,3 +1,6 @@
+<?php
+include 'ustmenu.php';
+?>
 <!DOCTYPE html>
 <html lang="tr">
 
