@@ -1,6 +1,3 @@
-<?php
-include 'ustmenu.php';
-?>
 <!DOCTYPE html>
 <html lang="tr">
 
@@ -19,7 +16,6 @@ include 'ustmenu.php';
 </head>
 
 <body>
-   
 
     <p class="baslik">Ürünleriniz</p>
 
@@ -28,14 +24,25 @@ include 'ustmenu.php';
 
         <form action="" method="post" class="ekle_card">
             <p>Ürün Ekle</p>
-            <input type="text" placeholder="Ürünün İsmi" required class="inputlar">
-            <input type="text" placeholder="Ürünün Açıklaması" required class="inputlar">
-            <input type="number" step="0.01" placeholder="Ürünün Fiyatı" required class="inputlar">
+            <input type="text" placeholder="Ürünün İsmi" required class="inputlar" name="urun_adi">
+            <textarea name="urun_aciklama" id="" placeholder="Ürünün Açıklaması" rows="4"></textarea>
+            <input type="number" step="0.01" placeholder="Ürünün Fiyatı" required class="inputlar" name="urun_fiyat">
+            <input type="number" placeholder="Stok Adedi" required class="inputlar" name="urun_fiyat">
+
+            <select name="kategori_id" required>
+                <option value="">Kategori Seçin</option>
+                <?php foreach ($kategoriler as $kategori): ?>
+                    <option value="<?= $kategori['kategori_id'] ?>">
+                        <?= $kategori['kategori_ad'] ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+
 
             <div class="urun-foto-div">
-                <input type="file" name="urun_foto" id="urun-foto" accept="image/*" required>
+                <input type="file" name="urun_foto" id="urun-foto" accept="image/*" required name="urun_gorsel">
                 <label for="urun-foto" class="urun-foto-label">
-                    <span>Ürününüzün Fotoğrafını Yükleyin</span>
+                    <span>Ürününüzün Görselini Yükleyin</span>
                 </label>
             </div>
 
@@ -50,8 +57,6 @@ include 'ustmenu.php';
             </button>
 
 
-        
-
 
 
         </form>
@@ -60,14 +65,16 @@ include 'ustmenu.php';
 
         <div class="card">
             <div class="urun-foto">
-                <img src="assets/kangal.jpg" alt="ürün-fotoğrafı">
+                <img src="assets/kangal.jpg" alt="ürün-gorseli">
             </div>
 
             <div class="urun-adi">
                 <span>Aksaray Malaklısı</span>
             </div>
             <div class="urun-aciklama">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, molestias voluptatum ut nam eos eum odio sequi cupiditate dicta alias, blanditiis assumenda, modi reprehenderit error temporibus dolore magni eaque repudiandae!
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, molestias voluptatum ut nam eos eum
+                odio sequi cupiditate dicta alias, blanditiis assumenda, modi reprehenderit error temporibus dolore
+                magni eaque repudiandae!
             </div>
             <div class="urun-fiyat-sil-duzenle">
                 <span class="fiyat">200.00Tl</span>
