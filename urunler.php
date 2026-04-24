@@ -45,6 +45,12 @@ if ($_POST) {
     }
 }
 
+$sorgu = $db->query("SELECT urunler.*, kategoriler.kategori_ad
+                      FROM urunler 
+                      LEFT JOIN kategoriler ON urunler.kategori_id = kategoriler.kategori_id
+                      ORDER BY urunler.id DESC");
+$urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 
@@ -112,27 +118,34 @@ if ($_POST) {
         </form>
 
 
+        <?php foreach ($urunler as $urun): ?>
+            <div class="card">
+                <div class="urun-foto">
+                    <img src="urun-img/<?= $urun["urun_foto"] ?>">
+                </div>
 
-        <div class="card">
-            <div class="urun-foto">
-                <img src="assets/kangal.jpg" alt="ürün-gorseli">
-            </div>
+                <div class="urun-adi">
+                    <span><?= $urun["urun_ad"] ?></span>
+                </div>
 
-            <div class="urun-adi">
-                <span>Aksaray Malaklısı</span>
-            </div>
-            <div class="urun-aciklama">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, molestias voluptatum ut nam eos eum
-                odio sequi cupiditate dicta alias, blanditiis assumenda, modi reprehenderit error temporibus dolore
-                magni eaque repudiandae!
-            </div>
-            <div class="urun-fiyat-sil-duzenle">
-                <span class="fiyat">200.00Tl</span>
-                <a href="#">Ürünü Sil</a>
-                <a href="#">Ürünü Düzenle</a>
-            </div>
-        </div>
+                <div class="urun-aciklama">
+                    <?= $urun["urun_aciklama"] ?>
+                </div>
 
+                <div class="urun-kategori-stok">
+                    <span>Kategori : <?= $urun["kategori_ad"] ?></span>
+                    <span> Kalan Stok : <?= $urun["urun_stok"] ?></span>
+                </div>
+
+                <div class="urun-fiyat-sil-duzenle">
+                    <span class="fiyat">
+                        <?= $urun["urun_fiyat"] ?> TL
+                    </span>
+                    <a href="#">Ürünü Sil</a>
+                    <a href="#">Ürünü Düzenle</a>
+                </div>
+            </div>
+        <?php endforeach ?>
 
     </div>
 
