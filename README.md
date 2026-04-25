@@ -1,3 +1,7 @@
+![Status](https://img.shields.io/badge/status-development-yellow)
+![PHP](https://img.shields.io/badge/backend-PHP-blue)
+![Frontend](https://img.shields.io/badge/frontend-HTML%20CSS-orange)
+
 
 # 🛒 MarketV2
 
@@ -28,5 +32,5 @@ MarketV2, kullanıcıların kendi hesaplarını oluşturup ürün ekleyebildiği
 ## ⚙️ Kurulum
 1. XAMPP veya benzeri bir localhost sunucusu kur
 2. Projeyi `htdocs` klasörüne at
-3. Tarayıcıdan şu adresi aç: http://localhost/marketV2/
+3. Tarayıcıdan şu adresi aç: http://localhost/MarketV2/
 
