@@ -28,7 +28,7 @@ if ($_POST) {
 
 
         $hedef_klasor = "urun-img/";
-        $dosya_adi = $_SESSION["kullanici_id"] . "_" . time() . basename($_FILES["urun_foto"]["name"]);
+        $dosya_adi = $_SESSION["kullanici_id"] . "_" . time() . "_" . basename($_FILES["urun_foto"]["name"]);
         $hedef_yol = $hedef_klasor . $dosya_adi;
 
         if (move_uploaded_file($_FILES["urun_foto"]["tmp_name"], $hedef_yol)) {
@@ -45,10 +45,12 @@ if ($_POST) {
     }
 }
 
-$sorgu = $db->query("SELECT urunler.*, kategoriler.kategori_ad
-                      FROM urunler 
+$sorgu = $db->prepare("SELECT urunler.*, kategoriler.kategori_ad
+                      FROM urunler
                       LEFT JOIN kategoriler ON urunler.kategori_id = kategoriler.kategori_id
+                      WHERE urunler.ekleyen_id = ?
                       ORDER BY urunler.id DESC");
+$sorgu->execute([$_SESSION["kullanici_id"]]);
 $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
@@ -63,6 +65,7 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
     <title>Market</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/urunler.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -141,7 +144,7 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
                     <span class="fiyat">
                         <?= $urun["urun_fiyat"] ?> TL
                     </span>
-                    <a href="#">Ürünü Sil</a>
+                    <a href="urunSil.php?id=<?= $urun["id"] ?>" onclick="return confirm('Bu ürünü gerçekten silmek istiyor musunuz?')">Ürünü Sil</a>
                     <a href="#">Ürünü Düzenle</a>
                 </div>
             </div>
@@ -152,3 +155,33 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
 </body>
 
 </html>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    if (urlParams.get('durum') === 'silindi') {
+        Swal.fire({
+            title: 'Başarılı!',
+            text: 'Ürününüz başarıyla silindi.',
+            icon: 'success',
+            confirmButtonText: 'Tamam',
+            confirmButtonColor: '#3085d6'
+        });
+        
+        // URL'yi temizle
+        window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (urlParams.get('durum') === 'hata') {
+        Swal.fire({
+            title: 'Hata!',
+            text: 'Bir hata oluştu lütfen tekrar deneyiniz.',
+            icon: 'error',
+            confirmButtonText: 'Tamam',
+            confirmButtonColor: '#d63038'
+        });
+        
+        // URL'yi temizle
+        window.history.replaceState({}, document.title, window.location.pathname);
+    } 
+
+    const baslik = document.querySelector('.baslik');
+</script>
