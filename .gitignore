@@ -1,1 +1,4 @@
 baglan.php
+
+urun-img/*
+!urun-img/.gitkeep
