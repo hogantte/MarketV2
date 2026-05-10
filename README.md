@@ -22,11 +22,12 @@ MarketV2, kullanıcıların kendi hesaplarını oluşturup ürün ekleyebildiği
 - 📦 Ürün ekleme
 - 🗑️ Ürün silme
 - 📋 Kullanıcıların kendi ürünlerini görüntüleyebilmesi
+- 🏠 Ürünlerin ana sayfada herkese gösterilmesi
 
 ## 🔮 Planlanan Özellikler
 - ✏️ Ürün düzenleme
 - 📊 Ürüne stok ekleme
-- 🏠 Ürünlerin ana sayfada herkese gösterilmesi
+
 - 🛍️ Ürün satın alma sistemi
 
 ## ⚙️ Kurulum
