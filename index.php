@@ -1,5 +1,16 @@
 <?php
+require_once 'baglan.php';
 include 'ustmenu.php';
+
+
+
+$sorgu = $db->prepare("SELECT urunler.*, kategoriler.kategori_ad , kullanicilar.kullanici_adi
+                      FROM urunler
+                      LEFT JOIN kategoriler ON urunler.kategori_id = kategoriler.kategori_id
+                      LEFT JOIN kullanicilar ON urunler.ekleyen_id = kullanicilar.id
+                      ORDER BY urunler.id DESC");
+$sorgu->execute();                      
+$urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -23,34 +34,37 @@ include 'ustmenu.php';
 </head>
 
 <body>
-    
+
     <div class="urunler">
+        <?php foreach ($urunler as $urun): ?>
         <div class="card">
             <div class="urun-foto">
-                <img src="assets/kangal.jpg" alt="ürün-fotoğrafı">
+                <img src="urun-img/<?= $urun["urun_foto"] ?>">
             </div>
 
             <div class="urun-adi">
-                <span>Aksaray Malaklısı</span>
+                <span><?= $urun["urun_ad"] ?></span>
             </div>
             <div class="urun-aciklama">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, molestias voluptatum ut nam eos eum
-                odio sequi cupiditate dicta alias, blanditiis assumenda, modi reprehenderit error temporibus dolore
-                magni eaque repudiandae!
+                <?= $urun["urun_aciklama"] ?>
             </div>
-            <div class="urun-fiyat-satinal">
-                <span class="fiyat">200Tl</span>
-                <button class="sepete-ekle">
-                    <input type="hidden" name="urun_id" value="">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="lucide lucide-plus-icon lucide-plus">
-                        <path d="M5 12h14" />
-                        <path d="M12 5v14" />
-                    </svg>
-                </button>
+            <div class="ekleyen-stokbildir">
+                <span class="ekleyen">Ekleyen: <?= $urun["kullanici_adi"] ?></span>
+
+                <?php if ($urun["urun_stok"] == 0): ?>
+                <span class="stok-uyari">Bu ürün tükenmiştir!</span>
+                <?php elseif ($urun["urun_stok"] <= 10 ): ?>
+                <span class="stok-uyari">Dikkat Sadece <?= $urun["urun_stok"] ?> stok kaldı</span>
+                <?php endif ?>
+
+
             </div>
+            <div class="kategori">
+                <span>Kategori :  <?= $urun["kategori_ad"] ?></span>
+            </div>
+            <div class="fiyat-sepet"><span><?= number_format($urun["urun_fiyat"], 2, ',', '.') ?>  TL</span> <button>Sepete Ekle</button> </div>
         </div>
+        <?php endforeach ?>
     </div>
 </body>
 
