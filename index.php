@@ -62,7 +62,7 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
             <div class="kategori">
                 <span>Kategori :  <?= $urun["kategori_ad"] ?></span>
             </div>
-            <div class="fiyat-sepet"><span><?= number_format($urun["urun_fiyat"], 2, ',', '.') ?>  TL</span> <button>Sepete Ekle</button> </div>
+            <div class="fiyat-sepet"><span><?= number_format($urun["urun_fiyat"], 2, ',', '.') ?>  TL</span> <a href="">Sepete Ekle</a> </div>
         </div>
         <?php endforeach ?>
     </div>

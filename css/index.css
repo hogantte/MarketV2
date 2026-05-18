@@ -88,17 +88,15 @@
     color: #273F4F;
 }
 
-.fiyat-sepet button{
-    border: none;
+.fiyat-sepet a{
+    font-size: 18px;
     color: #273F4F;
-    background-color: white;
-    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.3);
-    width: 150px;
-    border-radius: 2px;
-    height: 32px;
-    color: black;
-    font-size: 17px;
-    cursor: pointer;
+    font-weight: 500;
+    transition: 0.1s all ease-out;
+}
+
+.fiyat-sepet a:hover{
+    transform: scale(1.01);
 }
 
 .kategori{
