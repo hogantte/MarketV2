@@ -9,7 +9,7 @@ $sorgu = $db->prepare("SELECT urunler.*, kategoriler.kategori_ad , kullanicilar.
                       LEFT JOIN kategoriler ON urunler.kategori_id = kategoriler.kategori_id
                       LEFT JOIN kullanicilar ON urunler.ekleyen_id = kullanicilar.id
                       ORDER BY urunler.id DESC");
-$sorgu->execute();                      
+$sorgu->execute();
 $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
@@ -23,7 +23,7 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
     <title>Market</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/index.css">
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -37,35 +37,54 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
 
     <div class="urunler">
         <?php foreach ($urunler as $urun): ?>
-        <div class="card">
-            <div class="urun-foto">
-                <img src="urun-img/<?= $urun["urun_foto"] ?>">
-            </div>
+            <div class="card">
+                <div class="urun-foto">
+                    <img src="urun-img/<?= $urun["urun_foto"] ?>">
+                </div>
 
-            <div class="urun-adi">
-                <span><?= $urun["urun_ad"] ?></span>
-            </div>
-            <div class="urun-aciklama">
-                <?= $urun["urun_aciklama"] ?>
-            </div>
-            <div class="ekleyen-stokbildir">
-                <span class="ekleyen">Ekleyen: <?= $urun["kullanici_adi"] ?></span>
+                <div class="urun-adi">
+                    <span><?= $urun["urun_ad"] ?></span>
+                </div>
+                <div class="urun-aciklama">
+                    <?= $urun["urun_aciklama"] ?>
+                </div>
+                <div class="ekleyen-stokbildir">
+                    <span class="ekleyen">Ekleyen: <?= $urun["kullanici_adi"] ?></span>
 
-                <?php if ($urun["urun_stok"] == 0): ?>
-                <span class="stok-uyari">Bu ürün tükenmiştir!</span>
-                <?php elseif ($urun["urun_stok"] <= 10 ): ?>
-                <span class="stok-uyari">Dikkat Sadece <?= $urun["urun_stok"] ?> stok kaldı</span>
-                <?php endif ?>
+                    <?php if ($urun["urun_stok"] == 0): ?>
+                        <span class="stok-uyari">Bu ürün tükenmiştir!</span>
+                    <?php elseif ($urun["urun_stok"] <= 10): ?>
+                        <span class="stok-uyari">Dikkat Sadece <?= $urun["urun_stok"] ?> stok kaldı</span>
+                    <?php endif ?>
 
 
+                </div>
+                <div class="kategori">
+                    <span>Kategori : <?= $urun["kategori_ad"] ?></span>
+                </div>
+                <div class="fiyat-sepet"><span><?= number_format($urun["urun_fiyat"], 2, ',', '.') ?> TL</span> <a
+                        href="sepet_ekle.php?islem=ekle&id=<?= $urun['id'] ?>">Sepete Ekle</a> </div>
             </div>
-            <div class="kategori">
-                <span>Kategori :  <?= $urun["kategori_ad"] ?></span>
-            </div>
-            <div class="fiyat-sepet"><span><?= number_format($urun["urun_fiyat"], 2, ',', '.') ?>  TL</span> <a href="sepet_ekle.php?islem=ekle&id=<?= $urun['id'] ?>">Sepete Ekle</a> </div>
-        </div>
         <?php endforeach ?>
     </div>
 </body>
 
 </html>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if (urlParams.get('durum') === 'sepet-eklendi') {
+        
+        Swal.fire({
+            icon: 'success',
+            title: 'Sepete Eklendi!',
+            text: 'Ürününüz başarıyla sepete eklendi.',
+            timer: 1500, 
+            showConfirmButton: false
+        });
+
+        const temizUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+        window.history.replaceState({path: temizUrl}, '', temizUrl);
+    }
+</script>
