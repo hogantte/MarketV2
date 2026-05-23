@@ -70,7 +70,7 @@ if (!isset($_SESSION["giris"])) {
 
                         <div class="sutun-islem">
                             <div class="kaldir">
-                                <a href="sepet-islem.php?islem=sil&id=<?= $id ?>">
+                                <a href="sepet-islem.php?islem=sil&id=<?= $id ?>" style="text-decoration: none;">
                                     <button class="noselect">
                                         <span class="text">Sil</span>
                                         <span class="icon">
@@ -97,7 +97,7 @@ if (!isset($_SESSION["giris"])) {
             <?php else: ?>
                 <div class="bos-sepet">
                     <p>Sepetinizde henüz bir ürün bulunmuyor.</p>
-                    <a href="urunler.php" class="basla-btn">Alışverişe Başla</a>
+                    <a href="index.php" class="basla-btn">Alışverişe Başla</a>
                 </div>
             <?php endif; ?>
         </div>

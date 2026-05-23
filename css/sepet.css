@@ -97,3 +97,18 @@ button:focus {
 button:active .icon svg {
  transform: scale(0.9);
 }
+.basla-btn{
+    color: red;
+    font-size: 19px;
+    text-decoration: none;
+    transition: 0.2s ease-out all;
+}
+
+.basla-btn:hover{
+    font-size: 20px;
+}
+
+.tamamla-btn{
+    color: white;
+    font-weight: 500;
+}
