@@ -20,8 +20,9 @@ if (!isset($_SESSION["giris"])) {
 
     if ($urun) {
         if (isset($_SESSION['sepet'][$id])) {
-            $_SESSION['sepet']['id']['adet'] += 1;
-        } else {
+            $_SESSION['sepet'][$id]['adet'] += 1; 
+        } 
+        else {
             $_SESSION['sepet'][$id] = [
                 'ad' => $urun["urun_ad"],
                 'fiyat' => $urun["urun_fiyat"],
