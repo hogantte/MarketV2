@@ -1,4 +1,10 @@
-.urunler{
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.urunler {
     padding: 10px;
     display: flex;
     align-items: center;
@@ -6,109 +12,221 @@
     margin-top: 30px;
 }
 
-.sepet{
+.sepet {
     padding: 30px;
     background-color: #36576d;
-    width: 1200px;
+    width: 1250px;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
     color: white;
     border-radius: 15px;
 }
 
-.sepetteki-urun{
+
+.baslik,
+.sepetteki-urun {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     align-items: center;
-    font-size: 20px;
-    font-weight: 450;
-    margin-left: 20px;
-    margin-top: 10px;
+    width: 100%;
+    gap: 0;
+    padding: 12px 0;
+}
+
+.baslik {
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    margin-bottom: 5px;
+
+}
+
+.sepetteki-urun {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sepetteki-urun:last-of-type {
+    border-bottom: none;
 }
 
 
-.baslik{
+.sutun-ad {
+    flex: 1;
+}
+
+
+.sutun-gorsel {
+    flex: 1;
     display: flex;
-    font-size: 22px;
-    font-weight: 500;
-    gap: 130px;
-    padding-bottom: 10px;
+    justify-content: center;
+}
+
+.sutun-adet {
+    flex: 1;
+    text-align: center;
+}
+
+.sutun-fiyat {
+    flex: 1;
+    text-align: center;
+}
+
+.sutun-toplam {
+    flex: 1;
+    text-align: center;
+}
+
+.sutun-islem {
+    flex: 1;
+    display: flex;
+    justify-content: center;
 }
 
 
-/* From Uiverse.io by cssbuttons-io */ 
-button {
- width: 100px;
- height: 40px;
- cursor: pointer;
- display: flex;
- align-items: center;
- background: red;
- border: none;
- border-radius: 5px;
- box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
- background: #e62222;
+
+
+.sepet-foto {
+    display: block;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
 }
 
-button, button span {
- transition: 200ms;
+
+.kaldir button {
+    width: 110px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    background: #e62222;
+    border: none;
+    border-radius: 6px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+    transition: background 200ms;
 }
 
-button .text {
- transform: translateX(14px);
- color: white;
- font-weight: 450;
-}
-
-button .icon {
- position: absolute;
- border-left: 1px solid #c41b1b;
- transform: translateX(52px);
- height: 40px;
- width: 40px;
- display: flex;
- align-items: center;
- justify-content: center;
-}
-
-button svg {
- width: 13px;
- fill: #eee;
-}
-
-button:hover {
- background: #ff3636;
-}
-
-button:hover .text {
- color: transparent;
-}
-
-button:hover .icon {
- width: 100px;
- border-left: none;
- transform: translateX(-2px);
-}
-
-button:focus {
- outline: none;
-}
-
-button:active .icon svg {
- transform: scale(0.9);
-}
-.basla-btn{
-    color: red;
-    font-size: 19px;
-    text-decoration: none;
-    transition: 0.2s ease-out all;
-}
-
-.basla-btn:hover{
-    font-size: 20px;
-}
-
-.tamamla-btn{
+.kaldir button .text {
+    transform: translateX(16px);
     color: white;
     font-weight: 500;
+    font-size: 14px;
+    transition: color 200ms, transform 200ms;
+    white-space: nowrap;
+}
+
+.kaldir button .icon {
+    position: absolute;
+    right: 0;
+    border-left: 1px solid #c41b1b;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: width 200ms, border 200ms;
+}
+
+.kaldir button svg {
+    width: 13px;
+    fill: #eee;
+    transition: transform 200ms;
+}
+
+.kaldir button:hover {
+    background: #ff3636;
+}
+
+.kaldir button:hover .text {
+    color: transparent;
+}
+
+.kaldir button:hover .icon {
+    width: 110px;
+    border-left: none;
+}
+
+.kaldir button:active .icon svg {
+    transform: scale(0.9);
+}
+
+.sepet-ozet {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    flex-wrap: nowrap;
+}
+
+.toplam-yazi {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.toplam-fiyat {
+    color: #7defa7;
+}
+
+.tamamla-btn {
+    position: static;
+    overflow: visible;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    padding: 0 28px;
+    height: 46px;
+    background: #2ecc71;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+    cursor: pointer;
+    box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.2);
+    transition: background 200ms;
+}
+
+.tamamla-btn:hover {
+    background: #27ae60;
+}
+
+.bos-sepet {
+    text-align: center;
+    padding: 60px 0;
+    font-size: 16px;
+    opacity: 0.8;
+}
+
+.basla-btn {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 10px 24px;
+    background: #2ecc71;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 200ms;
+}
+
+.basla-btn:hover {
+    background: #27ae60;
+}
+
+.sutun-ad {
+    flex: 1;
+    text-align: center;
+}
+
+.sutun-gorsel {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    text-align: center;
 }

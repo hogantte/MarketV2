@@ -17,7 +17,6 @@ if (!isset($_SESSION["giris"])) {
     <title>MarketV2</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/sepet.css">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -27,47 +26,37 @@ if (!isset($_SESSION["giris"])) {
 
 <body>
 
-
-
     <div class="urunler">
         <div class="sepet">
             <?php if (!empty($_SESSION['sepet'])): ?>
 
                 <div class="baslik">
                     <span class="sutun-ad">Ürünün Adı</span>
-                    <span>Ürün Görsel</span>
+                    <span class="sutun-gorsel">Ürün Görsel</span>
                     <span class="sutun-adet">Adet</span>
                     <span class="sutun-fiyat">Ürünün Fiyatı</span>
                     <span class="sutun-toplam">Toplam</span>
                     <span class="sutun-islem">İşlem</span>
                 </div>
 
-                <?php foreach ($_SESSION['sepet'] as $id => $urun):
+                <?php
+                $genel_toplam = 0;
+                foreach ($_SESSION['sepet'] as $id => $urun):
                     $urun_adi = isset($urun['ad']) ? $urun['ad'] : 'Bilinmeyen Ürün';
                     $urun_fiyati = isset($urun['fiyat']) ? $urun['fiyat'] : 0;
                     $urun_adedi = isset($urun['adet']) ? $urun['adet'] : 1;
-                    $urun_foto = isset($urun['urun_foto']);
 
                     $ara_toplam = $urun_fiyati * $urun_adedi;
-                    $genel_toplam = +$ara_toplam;
+                    $genel_toplam += $ara_toplam;
                     ?>
                     <div class="sepetteki-urun">
-                        <span class="sutun-ad">
-                            <?= $urun_adi ?>
+                        <span class="sutun-ad"><?= $urun_adi ?></span>
+                        <span class="sutun-gorsel">
+                            <img src="urun-img/<?= $urun['foto'] ?>" class="sepet-foto" alt="Ürün Fotoğrafı">
                         </span>
-                        <span>
-                            <img src="urun-img/<?= $urun["foto"] ?>" class="sepet-foto" alt="Ürün Fotoğrafı" width="120px" height="120px">
-                        </span>
-                        <span class="sutun-adet">
-                            <?= $urun_adedi ?> Adet
-                        </span>
-                        <span class="sutun-fiyat">
-                            <?= $urun_fiyati ?> TL
-                        </span>
-                        <span class="sutun-toplam">
-                            <?= $ara_toplam ?> TL
-                        </span>
-
+                        <span class="sutun-adet"><?= $urun_adedi ?> Adet</span>
+                        <span class="sutun-fiyat"><?= $urun_fiyati ?> TL</span>
+                        <span class="sutun-toplam"><?= $ara_toplam ?> TL</span>
                         <div class="sutun-islem">
                             <div class="kaldir">
                                 <a href="sepet-islem.php?islem=sil&id=<?= $id ?>" style="text-decoration: none;">
@@ -88,9 +77,7 @@ if (!isset($_SESSION["giris"])) {
                 <?php endforeach; ?>
 
                 <div class="sepet-ozet">
-                    <h3 class="toplam-yazi">Genel Toplam: <span class="toplam-fiyat">
-                            <?= $genel_toplam ?> TL
-                        </span></h3>
+                    <h3 class="toplam-yazi">Genel Toplam: <span class="toplam-fiyat"><?= $genel_toplam ?> TL</span></h3>
                     <button class="tamamla-btn">Alışverişi Tamamla</button>
                 </div>
 
