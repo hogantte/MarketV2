@@ -1,0 +1,172 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+
+.duzenle-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    background-color: white;
+    width: 460px;
+    height: 560px;
+    box-shadow: 5px 2px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 40px;
+    font-size: 23px;
+    font-weight: 550;
+    padding: 5px;
+    padding-right: 25px;
+}
+
+.inputlar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.inputlar label {
+    width: 190px;
+    text-align: right;
+}
+
+.inputlar input {
+    width: 253px;
+    height: 40px;
+    box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.23);
+    padding: 5px;
+    padding-left: 10px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 550;
+    font-size: 16px;
+}
+
+.textarea {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.textarea label {
+    width: 190px;
+    text-align: right;
+    padding-top: 8px;
+}
+
+.textarea textarea {
+    width: 265px;
+    min-width: 265px;
+    max-width: 265px;
+    height: 100px;
+    box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.23);
+    font-weight: 550;
+    font-size: 16px;
+    border-radius: 10px;
+    padding: 10px;
+    border: none;
+    outline: none;
+    resize: none;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.urun_kategori {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.urun_kategori label {
+    width: 190px;
+    text-align: right;
+}
+
+.urun_kategori select {
+    width: 265px;
+    height: 40px;
+    box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.23);
+    padding: 5px;
+    padding-left: 10px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 550;
+    font-size: 16px;
+    font-family: inherit;
+    background-color: white;
+    cursor: pointer;
+    appearance: auto;
+}
+
+
+
+
+
+.kaydet-btn {
+    width: 180px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    background: #00a600;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.23);
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 120px;
+}
+
+button,
+button span {
+    transition: 200ms;
+}
+
+.kaydet-btn .kaydet-span {
+    transform: translateX(11px);
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.kaydet-btn .icon {
+    position: absolute;
+    border-left: 1px solid #007300;
+    transform: translateX(130px);
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.kaydet-btn svg {
+    width: 25px;
+    stroke: white;
+}
+
+.kaydet-btn:hover {
+    background: #009e00;
+}
+
+.kaydet-btn:hover .kaydet-span {
+    color: transparent;
+}
+
+.kaydet-btn:hover .icon {
+    width: 150px;
+    border-left: none;
+    transform: translateX(0);
+}
+
+.kaydet-btn:focus {
+    outline: none;
+}
+
+.kaydet-btn:active .icon svg {
+    transform: scale(0.8);
+}

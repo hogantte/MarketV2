@@ -144,8 +144,9 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
                     <span class="fiyat">
                         <?= $urun["urun_fiyat"] ?> TL
                     </span>
-                    <a href="urunSil.php?id=<?= $urun["id"] ?>" onclick="return confirm('Bu ürünü gerçekten silmek istiyor musunuz?')">Ürünü Sil</a>
-                    <a href="#">Ürünü Düzenle</a>
+                    <a href="urunSil.php?id=<?= $urun["id"] ?>"
+                        onclick="return confirm('Bu ürünü gerçekten silmek istiyor musunuz?')">Ürünü Sil</a>
+                    <a href="urun_duzenle.php?id=<?= $urun["id"] ?>">Ürünü Düzenle</a>
                 </div>
             </div>
         <?php endforeach ?>
@@ -158,7 +159,7 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
 
 <script>
     const urlParams = new URLSearchParams(window.location.search);
-    
+
     if (urlParams.get('durum') === 'silindi') {
         Swal.fire({
             title: 'Başarılı!',
@@ -167,7 +168,7 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
             confirmButtonText: 'Tamam',
             confirmButtonColor: '#3085d6'
         });
-        
+
         // URL'yi temizle
         window.history.replaceState({}, document.title, window.location.pathname);
     } else if (urlParams.get('durum') === 'hata') {
@@ -178,10 +179,44 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
             confirmButtonText: 'Tamam',
             confirmButtonColor: '#d63038'
         });
-        
+
         // URL'yi temizle
         window.history.replaceState({}, document.title, window.location.pathname);
-    } 
+    } else if (urlParams.get('durum') === 'id-bulunamadi') {
+        Swal.fire({
+            title: 'İd Bulunamadı',
+            text: 'Ürünün İdsi Bulunamadı Lütfen Tekrar Deneyiniz',
+            icon: 'error',
+            confirmButtonText: 'Tamam',
+            confirmButtonColor: '#d63038'
+        });
+
+        // URL'yi temizle
+        window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (urlParams.get('durum') === 'urun-bulunamadi') {
+        Swal.fire({
+            title: 'Ürün Bulunamadı',
+            text: 'Ürün Bulunamadı Lütfen Tekrar Deneyiniz',
+            icon: 'error',
+            confirmButtonText: 'Tamam',
+            confirmButtonColor: '#3085d6'
+        });
+
+        // URL'yi temizle
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }else if (urlParams.get('durum') === 'guncellendi') {
+        Swal.fire({
+            title: 'Ürün Başarıyla Güncellendi',
+            text: 'Ürününüz Güncellendi',
+            icon: 'success',
+            confirmButtonText: 'Tamam',
+            confirmButtonColor: '#2531da'
+        });
+
+        // URL'yi temizle
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
 
     const baslik = document.querySelector('.baslik');
 </script>
