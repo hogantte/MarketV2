@@ -17,6 +17,7 @@ if (!isset($_SESSION["giris"])) {
     <title>MarketV2</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/sepet.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -78,7 +79,9 @@ if (!isset($_SESSION["giris"])) {
 
                 <div class="sepet-ozet">
                     <h3 class="toplam-yazi">Genel Toplam: <span class="toplam-fiyat"><?= $genel_toplam ?> TL</span></h3>
+                    <form method="post" action="satin_al.php">
                     <button class="tamamla-btn">Alışverişi Tamamla</button>
+                    </form>
                 </div>
 
             <?php else: ?>
@@ -93,3 +96,21 @@ if (!isset($_SESSION["giris"])) {
 </body>
 
 </html>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if (urlParams.get('basarili') === 'siparis-alindi') {
+        
+        Swal.fire({
+            icon: 'success',
+            title: 'Siparişiniz Alındı',
+            text: 'Sepetinizdeki Ürünler Başarıyla Alındı Herhangi Bi Sorun Oluşursa Satıcıya Ulaşınız.',
+            timer: 1500, 
+            showConfirmButton: true
+        });
+
+        const temizUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+        window.history.replaceState({path: temizUrl}, '', temizUrl);
+    }
+</script>
