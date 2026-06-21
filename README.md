@@ -23,11 +23,11 @@ MarketV2, kullanıcıların kendi hesaplarını oluşturup ürün ekleyebildiği
 - 🗑️ Ürün silme
 - 📋 Kullanıcıların kendi ürünlerini görüntüleyebilmesi
 - 🏠 Ürünlerin ana sayfada herkese gösterilmesi
-- - ✏️ Ürün düzenleme
+- ✏️ Ürün düzenleme
+- 🛍️ Ürün satın alma sistemi
 
 ## 🔮 Planlanan Özellikler
-- 📊 Ürüne stok ekleme
-- 🛍️ Ürün satın alma sistemi
+- 🛍️ Satın alınan ürünleri göreme
 
 ## ⚙️ Kurulum
 1. XAMPP veya benzeri bir localhost sunucusu kur
