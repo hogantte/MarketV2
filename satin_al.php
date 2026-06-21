@@ -15,13 +15,18 @@ if (empty($_SESSION['sepet'])) {
 $toplam = 0;
 
 try {
+
+    echo '<pre>';
+    print_r($_SESSION['sepet']);
+    echo '</pre>';
+
+
     $db->beginTransaction();
 
     $urunDetaylari = [];
 
-    foreach ($_SESSION['sepet'] as $urun_id => $miktar) {
-
-        $miktar = (int)$miktar;
+    foreach ($_SESSION['sepet'] as $urun_id => $detay) {
+        $miktar = (int) $detay['adet'];
 
         $stmt = $db->prepare("SELECT id, urun_fiyat, urun_stok FROM urunler WHERE id = ? FOR UPDATE");
         $stmt->execute([$urun_id]);
@@ -32,12 +37,12 @@ try {
         }
 
         if ($urun['urun_stok'] < $miktar) {
-            throw new Exception("\"" . $urun_id . "\" için yeterli stok yok. Mevcut stok: " . $urun['urun_stok']);
+            throw new Exception("Yeterli stok yok (ürün id: $urun_id)");
         }
 
         $urunDetaylari[$urun_id] = [
             'miktar' => $miktar,
-            'fiyat'  => $urun['urun_fiyat'],
+            'fiyat' => $urun['urun_fiyat'],
         ];
 
         $toplam += $urun['urun_fiyat'] * $miktar;

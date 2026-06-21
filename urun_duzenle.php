@@ -33,6 +33,7 @@ $kategoriler = $kategori_sor->fetchAll(PDO::FETCH_ASSOC);
 
 if (!$urun) {
     header("Location: urunler.php?durum=urun-bulunamadi");
+    exit();
 }
 
 
@@ -44,12 +45,13 @@ if($_POST){
     $yeni_kategori = $_POST['kategori_id'];
 
     if(empty($yeni_urun_ad) || empty($yeni_urun_aciklama) || empty ($yeni_urun_fiyat) || empty($yeni_urun_stok) || empty($yeni_kategori)){
-    $hata = "Lüten Bütün Alanları Doldurunuz";
+    $hata = "Lütfen Bütün Alanları Doldurunuz";
     }else{
         $guncelle =  $db->prepare("UPDATE urunler Set
-                                    urun_ad = ? , urun_aciklama = ? , urun_fiyat = ? , urun_stok = ? , kategori_id = ?");
+                                    urun_ad = ? , urun_aciklama = ? , urun_fiyat = ? , urun_stok = ? , kategori_id = ?
+                                    WHERE id = ?");
         $guncelle->execute ([
-            $yeni_urun_ad , $yeni_urun_aciklama , $yeni_urun_fiyat , $yeni_urun_stok ,$yeni_kategori
+            $yeni_urun_ad , $yeni_urun_aciklama , $yeni_urun_fiyat , $yeni_urun_stok ,$yeni_kategori,$id
         ]);
         header("Location: urunler.php?durum=guncellendi");
         exit();
