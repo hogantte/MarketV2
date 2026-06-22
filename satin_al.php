@@ -16,9 +16,6 @@ $toplam = 0;
 
 try {
 
-    echo '<pre>';
-    print_r($_SESSION['sepet']);
-    echo '</pre>';
 
 
     $db->beginTransaction();
