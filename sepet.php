@@ -1,11 +1,33 @@
 <?php
 session_start();
+require_once 'baglan.php';
 include 'ustmenu.php';
 
 if (!isset($_SESSION["giris"])) {
     header("Location:giris.php?hata=izinsiz-erisim");
     exit;
 }
+
+$sorgu = $db->prepare("
+    SELECT
+        s.id AS siparis_id,
+        s.tarih,
+        s.toplam_fiyat,
+        su.miktar,
+        su.fiyat,
+        u.urun_ad
+    FROM siparisler s
+    INNER JOIN siparis_urunleri su ON s.id = su.siparis_id
+    INNER JOIN urunler u ON su.urun_id = u.id
+    WHERE s.kullanici_id = ?
+    ORDER BY s.id DESC
+");
+
+$sorgu->execute([$_SESSION['kullanici_id']]);
+
+$siparisler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -80,7 +102,7 @@ if (!isset($_SESSION["giris"])) {
                 <div class="sepet-ozet">
                     <h3 class="toplam-yazi">Genel Toplam: <span class="toplam-fiyat"><?= $genel_toplam ?> TL</span></h3>
                     <form method="post" action="satin_al.php">
-                    <button class="tamamla-btn">Alışverişi Tamamla</button>
+                        <button class="tamamla-btn">Alışverişi Tamamla</button>
                     </form>
                 </div>
 
@@ -90,6 +112,51 @@ if (!isset($_SESSION["giris"])) {
                     <a href="index.php" class="basla-btn">Alışverişe Başla</a>
                 </div>
             <?php endif; ?>
+        </div>
+
+        <div class="sepet">
+
+            <div class="baslik">
+                <span class="sutun-ad">Tarih</span>
+                <span class="sutun-ad">Ürün</span>
+                <span class="sutun-ad">Miktar</span>
+                <span class="sutun-ad">Fiyat</span>
+            </div>
+
+            <?php if (!empty($siparisler)): ?>
+
+                <?php foreach ($siparisler as $siparis): ?>
+
+                    <div class="sepetteki-urun">
+
+                        <span class="sutun-ad">
+                            <?= date('d.m.Y H:i', strtotime($siparis['tarih'])) ?>
+                        </span>
+
+                        <span class="sutun-ad">
+                            <?= htmlspecialchars($siparis['urun_ad']) ?>
+                        </span>
+
+                        <span class="sutun-ad">
+                            <?= $siparis['miktar'] ?> Adet
+                        </span>
+
+                        <span class="sutun-ad">
+                            <?= number_format($siparis['fiyat'], 2, ',', '.') ?> TL
+                        </span>
+
+                    </div>
+
+                <?php endforeach; ?>
+
+            <?php else: ?>
+
+                <div class="bos-sepet">
+                    <p>Henüz siparişiniz bulunmuyor.</p>
+                </div>
+
+            <?php endif; ?>
+
         </div>
     </div>
 
@@ -101,16 +168,16 @@ if (!isset($_SESSION["giris"])) {
     const urlParams = new URLSearchParams(window.location.search);
 
     if (urlParams.get('basarili') === 'siparis-alindi') {
-        
+
         Swal.fire({
             icon: 'success',
             title: 'Siparişiniz Alındı',
             text: 'Sepetinizdeki Ürünler Başarıyla Alındı Herhangi Bi Sorun Oluşursa Satıcıya Ulaşınız.',
-            timer: 1500, 
+            timer: 1500,
             showConfirmButton: true
         });
 
         const temizUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-        window.history.replaceState({path: temizUrl}, '', temizUrl);
+        window.history.replaceState({ path: temizUrl }, '', temizUrl);
     }
 </script>
