@@ -25,12 +25,15 @@ MarketV2, kullanıcıların kendi hesaplarını oluşturup ürün ekleyebildiği
 - 🏠 Ürünlerin ana sayfada herkese gösterilmesi
 - ✏️ Ürün düzenleme
 - 🛍️ Ürün satın alma sistemi
-
-## 🔮 Planlanan Özellikler
 - 🛍️ Satın alınan ürünleri göreme
 
+## 🔮 Planlanan Özellikler
+- 📦 Sipariş Durumları (Hazırlanıyor , Kargolandı , Teslim Edildi Vb.)
+- 📧 Şifre Değiştirmek İçin Mail
+- 📧 Satın Alınan Ürünün Mail Üzerinden Faturası
+
 ## ⚙️ Kurulum
-1. XAMPP veya benzeri bir localhost sunucusu kur
+1. Laragon veya benzeri bir localhost sunucusu kur
 2. Projeyi `htdocs` klasörüne at
 3. Tarayıcıdan şu adresi aç: http://localhost/MarketV2/
 
