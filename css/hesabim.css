@@ -1,12 +1,13 @@
-.hesabim{
+.hesabim {
     padding: 10px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     margin-top: 30px;
 }
 
-.hesabim-card{
+.hesabim-card {
     padding: 30px;
     background-color: #36576d;
     width: 400px;
@@ -20,7 +21,7 @@
 }
 
 
-.satir{
+.satir {
     display: flex;
     justify-content: space-between;
     text-align: center;
@@ -28,10 +29,33 @@
     font-weight: 550;
 }
 
-.satir a{
+.satir a {
     margin-left: 327px;
     color: red;
     text-decoration: none;
     cursor: pointer;
     font-size: 18px;
+}
+
+.linkler {
+    padding: 30px;
+    background-color: #36576d;
+    width: 400px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    gap: 48%;
+    margin-top: 40px;
+    display: flex;
+}
+
+.linkler a {
+    color: rgb(190, 190, 190);
+    text-decoration: none;
+    font-size: 18px;
+    transition: all ease 0.3s;
+}
+
+.linkler a:hover {
+    color: white;
+    text-decoration: underline;
 }
