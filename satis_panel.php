@@ -41,11 +41,18 @@ foreach ($satilmis as $satir) {
         ];
     }
     $gruplu[$id]['urunler'][] = [
-        'urun_ad' => $satir['urun_ad'] + " ",
+        'urun_ad' => $satir['urun_ad'],
         'miktar' => $satir['miktar'],
         'urun_birim_fiyat' => $satir['urun_birim_fiyat']
     ];
 }
+
+$durum_etiketleri=[
+    'onay_bekliyor' => 'Onay Bekliyor',
+    'hazirlaniyor'  => 'Hazırlanıyor',
+    'kargolandi'    => 'Kargolandı',
+    'teslin_edildi' => 'Teslim Edildi'
+];
 
 ?>
 
@@ -83,9 +90,10 @@ foreach ($satilmis as $satir) {
                     <div class="sutun">#<?= $satilmislar['siparis_id'] ?></div>
                     <div class="sutun"><?= date('d.m.Y H:i', strtotime($satilmislar['tarih'])) ?></div>
                     <div class="sutun"><?= $satilmislar['toplam_fiyat'] ?></div>
-                    <div class="sutun"><?= $satilmislar['Durum'] ?></div>
+                    <div class="sutun"><?= $durum_etiketleri[$satilmislar['Durum']] ?></div>
                 </div>
             <?php endforeach ?>
+            
         </div>
     </div>
 
