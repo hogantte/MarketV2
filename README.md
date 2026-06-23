@@ -26,9 +26,10 @@ MarketV2, kullanıcıların kendi hesaplarını oluşturup ürün ekleyebildiği
 - ✏️ Ürün düzenleme
 - 🛍️ Ürün satın alma sistemi
 - 🛍️ Satın alınan ürünleri göreme
+- 📦 Sipariş Durumları (Hazırlanıyor , Kargolandı , Teslim Edildi Vb.)
 
 ## 🔮 Planlanan Özellikler
-- 📦 Sipariş Durumları (Hazırlanıyor , Kargolandı , Teslim Edildi Vb.)
+
 - 📧 Şifre Değiştirmek İçin Mail
 - 📧 Satın Alınan Ürünün Mail Üzerinden Faturası
 
