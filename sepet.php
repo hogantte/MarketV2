@@ -8,24 +8,6 @@ if (!isset($_SESSION["giris"])) {
     exit;
 }
 
-$sorgu = $db->prepare("
-    SELECT
-        s.id AS siparis_id,
-        s.tarih,
-        s.toplam_fiyat,
-        su.miktar,
-        su.fiyat,
-        u.urun_ad
-    FROM siparisler s
-    INNER JOIN siparis_urunleri su ON s.id = su.siparis_id
-    INNER JOIN urunler u ON su.urun_id = u.id
-    WHERE s.kullanici_id = ?
-    ORDER BY s.id DESC
-");
-
-$sorgu->execute([$_SESSION['kullanici_id']]);
-
-$siparisler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
 
 
 ?>
@@ -114,50 +96,7 @@ $siparisler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
             <?php endif; ?>
         </div>
 
-        <div class="sepet">
-
-            <div class="baslik">
-                <span class="sutun-ad">Tarih</span>
-                <span class="sutun-ad">Ürün</span>
-                <span class="sutun-ad">Miktar</span>
-                <span class="sutun-ad">Fiyat</span>
-            </div>
-
-            <?php if (!empty($siparisler)): ?>
-
-                <?php foreach ($siparisler as $siparis): ?>
-
-                    <div class="sepetteki-urun">
-
-                        <span class="sutun-ad">
-                            <?= date('d.m.Y H:i', strtotime($siparis['tarih'])) ?>
-                        </span>
-
-                        <span class="sutun-ad">
-                            <?= htmlspecialchars($siparis['urun_ad']) ?>
-                        </span>
-
-                        <span class="sutun-ad">
-                            <?= $siparis['miktar'] ?> Adet
-                        </span>
-
-                        <span class="sutun-ad">
-                            <?= number_format($siparis['fiyat'], 2, ',', '.') ?> TL
-                        </span>
-
-                    </div>
-
-                <?php endforeach; ?>
-
-            <?php else: ?>
-
-                <div class="bos-sepet">
-                    <p>Henüz siparişiniz bulunmuyor.</p>
-                </div>
-
-            <?php endif; ?>
-
-        </div>
+        
     </div>
 
 </body>

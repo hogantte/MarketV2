@@ -1,0 +1,17 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+.sepet {
+    padding: 30px;
+    background-color: #36576d;
+    width: 1250px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+    color: white;
+    border-radius: 15px;
+    margin: 50px;
+}
