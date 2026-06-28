@@ -12,6 +12,7 @@ $sorgu = $db->prepare("
     SELECT
         s.id AS siparis_id,
         s.tarih,
+        s.Durum,
         s.toplam_fiyat,
         su.miktar,
         su.fiyat,
@@ -26,6 +27,13 @@ $sorgu = $db->prepare("
 $sorgu->execute([$_SESSION['kullanici_id']]);
 
 $siparisler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
+
+$durum_etiketleri = [
+    'onay_bekliyor' => 'Onay Bekliyor',
+    'hazirlaniyor' => 'Hazırlanıyor',
+    'kargolandi' => 'Kargolandı',
+    'teslim_edildi' => 'Teslim Edildi'
+];
 
 ?>
 
@@ -54,6 +62,7 @@ $siparisler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
                 <span class="sutun-ad">Ürün</span>
                 <span class="sutun-ad">Miktar</span>
                 <span class="sutun-ad">Fiyat</span>
+                <span class="sutun-ad">Siparişin Durumu</span>
             </div>
 
             <?php if (!empty($siparisler)): ?>
@@ -77,7 +86,9 @@ $siparisler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
                         <span class="sutun-ad">
                             <?= number_format($siparis['fiyat'], 2, ',', '.') ?> TL
                         </span>
-
+                        <?php if ($siparis['Durum'] === "onay_bekliyor" || $siparis['Durum'] === "hazirlaniyor" || $siparis["Durum"] === "teslim_edildi"): ?>
+                        <span class="sutun-ad"><?= $durum_etiketleri[$siparis['Durum']] ?></span>
+                        <?php endif; ?>
                     </div>
 
                 <?php endforeach; ?>

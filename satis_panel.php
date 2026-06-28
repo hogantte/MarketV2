@@ -47,11 +47,11 @@ foreach ($satilmis as $satir) {
     ];
 }
 
-$durum_etiketleri=[
+$durum_etiketleri = [
     'onay_bekliyor' => 'Onay Bekliyor',
-    'hazirlaniyor'  => 'Hazırlanıyor',
-    'kargolandi'    => 'Kargolandı',
-    'teslin_edildi' => 'Teslim Edildi'
+    'hazirlaniyor' => 'Hazırlanıyor',
+    'kargolandi' => 'Kargolandı',
+    'teslim_edildi' => 'Teslim Edildi'
 ];
 
 ?>
@@ -83,6 +83,7 @@ $durum_etiketleri=[
                     <div class="sutun">Satış Tarihi</div>
                     <div class="sutun">Fiyat</div>
                     <div class="sutun">Durum</div>
+                    <div class="sutun">Yönet</div>
                 </div>
             </div>
             <?php foreach ($gruplu as $satilmislar): ?>
@@ -91,9 +92,18 @@ $durum_etiketleri=[
                     <div class="sutun"><?= date('d.m.Y H:i', strtotime($satilmislar['tarih'])) ?></div>
                     <div class="sutun"><?= $satilmislar['toplam_fiyat'] ?></div>
                     <div class="sutun"><?= $durum_etiketleri[$satilmislar['Durum']] ?></div>
+                    <div class="sutun">
+                        <?php if ($satilmislar['Durum'] == 'onay_bekliyor'): ?>
+                            <a href="panel_onayla.php?id=<?= $satilmislar['siparis_id'] ?>" class="onayla-btn">Siparişi Onayla!</a>
+                        <?php elseif($satilmislar['Durum'] == 'hazirlaniyor'): ?>
+                            <a href="panel_kargola.php?id=<?= $satilmislar['siparis_id'] ?>" class="kargola-btn" >Siparişi Kargola!</a>
+                        <?php else: ?>
+                            
+                        <?php endif; ?>
+                    </div>
                 </div>
             <?php endforeach ?>
-            
+
         </div>
     </div>
 

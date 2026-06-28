@@ -53,3 +53,9 @@
 .satilanlar:last-of-type {
     border-bottom: none;
 }
+
+.onayla-btn{
+
+    text-decoration: none;
+    color: yellow;
+}
