@@ -14,11 +14,8 @@ $sorgu = $db->prepare("SELECT
     siparisler.id AS siparis_id,
     siparisler.toplam_fiyat,
     siparisler.Durum,
-    siparisler.tarih,
     siparis_urunleri.miktar,
     siparis_urunleri.fiyat AS urun_birim_fiyat,
-    urunler.urun_ad,
-    urunler.urun_foto
 FROM siparisler 
 JOIN siparis_urunleri ON siparisler.id = siparis_urunleri.siparis_id 
 JOIN urunler ON siparis_urunleri.urun_id = urunler.id 
