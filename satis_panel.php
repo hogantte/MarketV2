@@ -10,17 +10,21 @@ if (!isset($_SESSION["giris"])) {
 
 
 
-$sorgu = $db->prepare("SELECT 
+$sorgu = $db->prepare("
+    SELECT
     siparisler.id AS siparis_id,
+    siparisler.tarih,
     siparisler.toplam_fiyat,
     siparisler.Durum,
     siparis_urunleri.miktar,
     siparis_urunleri.fiyat AS urun_birim_fiyat,
-FROM siparisler 
-JOIN siparis_urunleri ON siparisler.id = siparis_urunleri.siparis_id 
-JOIN urunler ON siparis_urunleri.urun_id = urunler.id 
-WHERE urunler.ekleyen_id = ? 
-ORDER BY siparisler.id DESC");
+    urunler.urun_ad
+    FROM siparisler
+    JOIN siparis_urunleri ON siparisler.id = siparis_urunleri.siparis_id
+    JOIN urunler ON siparis_urunleri.urun_id = urunler.id
+    WHERE urunler.ekleyen_id = ?
+    ORDER BY siparisler.id DESC
+");
 $sorgu->execute([$_SESSION["kullanici_id"]]);
 
 $satilmis = $sorgu->fetchALL(PDO::FETCH_ASSOC);
@@ -95,7 +99,6 @@ $durum_etiketleri = [
                         <?php elseif($satilmislar['Durum'] == 'hazirlaniyor'): ?>
                             <a href="panel_kargola.php?id=<?= $satilmislar['siparis_id'] ?>" class="kargola-btn" >Siparişi Kargola!</a>
                         <?php else: ?>
-                            
                         <?php endif; ?>
                     </div>
                 </div>

@@ -232,3 +232,8 @@
     justify-content: center;
     text-align: center;
 }
+
+.teslim-btn{
+    color: rgb(0, 204, 0);
+    text-decoration: none;
+}

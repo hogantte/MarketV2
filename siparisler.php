@@ -10,23 +10,25 @@ if (!isset($_SESSION['giris'])) {
 
 $sorgu = $db->prepare("
     SELECT
-        s.id AS siparis_id,
-        s.tarih,
-        s.Durum,
-        s.toplam_fiyat,
-        su.miktar,
-        su.fiyat,
-        u.urun_ad
-    FROM siparisler s
-    INNER JOIN siparis_urunleri su ON s.id = su.siparis_id
-    INNER JOIN urunler u ON su.urun_id = u.id
-    WHERE s.kullanici_id = ?
-    ORDER BY s.id DESC
+        siparisler.id,
+        siparisler.tarih,
+        siparisler.toplam_fiyat,
+        siparisler.Durum,
+        GROUP_CONCAT(urunler.urun_ad SEPARATOR ', ') AS urunler
+    FROM siparisler
+    JOIN siparis_urunleri
+        ON siparisler.id = siparis_urunleri.siparis_id
+    JOIN urunler
+        ON siparis_urunleri.urun_id = urunler.id
+    WHERE siparisler.kullanici_id = ?
+    GROUP BY siparisler.id, siparisler.tarih, siparisler.toplam_fiyat
+    ORDER BY siparisler.tarih DESC
 ");
 
 $sorgu->execute([$_SESSION['kullanici_id']]);
-
 $siparisler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
+
+
 
 $durum_etiketleri = [
     'onay_bekliyor' => 'Onay Bekliyor',
@@ -56,13 +58,12 @@ $durum_etiketleri = [
 <body>
     <div class="urunler">
         <div class="sepet">
-
             <div class="baslik">
+                <span class="sutun-ad">Sipariş No</span>
+                <span class="sutun-ad">Ürün Adları</span>
                 <span class="sutun-ad">Tarih</span>
-                <span class="sutun-ad">Ürün</span>
-                <span class="sutun-ad">Miktar</span>
                 <span class="sutun-ad">Fiyat</span>
-                <span class="sutun-ad">Siparişin Durumu</span>
+                <span class="sutun-ad">Durum</span>
             </div>
 
             <?php if (!empty($siparisler)): ?>
@@ -72,22 +73,24 @@ $durum_etiketleri = [
                     <div class="sepetteki-urun">
 
                         <span class="sutun-ad">
-                            <?= date('d.m.Y H:i', strtotime($siparis['tarih'])) ?>
+                            <?= htmlspecialchars($siparis['id']) ?>
                         </span>
 
                         <span class="sutun-ad">
-                            <?= htmlspecialchars($siparis['urun_ad']) ?>
+                            <?= htmlspecialchars($siparis['urunler']) ?>
                         </span>
 
                         <span class="sutun-ad">
-                            <?= $siparis['miktar'] ?> Adet
+                           <?= date('d.m.Y H:i', strtotime($siparis['tarih'])) ?>
                         </span>
 
                         <span class="sutun-ad">
-                            <?= number_format($siparis['fiyat'], 2, ',', '.') ?> TL
+                            <?= number_format($siparis['toplam_fiyat'], 2, ',', '.') ?> TL
                         </span>
                         <?php if ($siparis['Durum'] === "onay_bekliyor" || $siparis['Durum'] === "hazirlaniyor" || $siparis["Durum"] === "teslim_edildi"): ?>
                         <span class="sutun-ad"><?= $durum_etiketleri[$siparis['Durum']] ?></span>
+                        <?php elseif ($siparis['Durum'] === 'kargolandi'): ?>
+                        <a href="siparis-teslimEt.php?id=<?= $siparis['id'] ?>" class="teslim-btn" >Ürün Elinize Ulaştığını Onaylayın</a>
                         <?php endif; ?>
                     </div>
 
