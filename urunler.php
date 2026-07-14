@@ -144,8 +144,7 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
                     <span class="fiyat">
                         <?= $urun["urun_fiyat"] ?> TL
                     </span>
-                    <a href="urunSil.php?id=<?= $urun["id"] ?>"
-                        onclick="return confirm('Bu ürünü gerçekten silmek istiyor musunuz?')">Ürünü Sil</a>
+                    <button class="urun-sil" data-id="<?= $urun['id'] ?>">Ürünü Sil</button>
                     <a href="urun_duzenle.php?id=<?= $urun["id"] ?>">Ürünü Düzenle</a>
                 </div>
             </div>
@@ -158,65 +157,36 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
 </html>
 
 <script>
-    const urlParams = new URLSearchParams(window.location.search);
+    document.querySelectorAll(".urun-sil").forEach(function (btn) {
+        btn.addEventListener("click" , function () {
+            const id = this.dataset.id;
+            fetch("urunSil.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
 
-    if (urlParams.get('durum') === 'silindi') {
-        Swal.fire({
-            title: 'Başarılı!',
-            text: 'Ürününüz başarıyla silindi.',
-            icon: 'success',
-            confirmButtonText: 'Tamam',
-            confirmButtonColor: '#3085d6'
-        });
+                body: `id=${id}`
+            })
 
-        // URL'yi temizle
-        window.history.replaceState({}, document.title, window.location.pathname);
-    } else if (urlParams.get('durum') === 'hata') {
-        Swal.fire({
-            title: 'Hata!',
-            text: 'Bir hata oluştu lütfen tekrar deneyiniz.',
-            icon: 'error',
-            confirmButtonText: 'Tamam',
-            confirmButtonColor: '#d63038'
-        });
+            .then(response => response.text())
 
-        // URL'yi temizle
-        window.history.replaceState({}, document.title, window.location.pathname);
-    } else if (urlParams.get('durum') === 'id-bulunamadi') {
-        Swal.fire({
-            title: 'İd Bulunamadı',
-            text: 'Ürünün İdsi Bulunamadı Lütfen Tekrar Deneyiniz',
-            icon: 'error',
-            confirmButtonText: 'Tamam',
-            confirmButtonColor: '#d63038'
-        });
+            .then(data => {
+                
+                if(data != "ok"){
+                    allert("hata oluştu tekrar deneyin!");
+                    return;
+                }
+                this.style.opacity = "0";
 
-        // URL'yi temizle
-        window.history.replaceState({}, document.title, window.location.pathname);
-    } else if (urlParams.get('durum') === 'urun-bulunamadi') {
-        Swal.fire({
-            title: 'Ürün Bulunamadı',
-            text: 'Ürün Bulunamadı Lütfen Tekrar Deneyiniz',
-            icon: 'error',
-            confirmButtonText: 'Tamam',
-            confirmButtonColor: '#3085d6'
-        });
+                const kart = this.closest(".card");
 
-        // URL'yi temizle
-        window.history.replaceState({}, document.title, window.location.pathname);
-    }else if (urlParams.get('durum') === 'guncellendi') {
-        Swal.fire({
-            title: 'Ürün Başarıyla Güncellendi',
-            text: 'Ürününüz Güncellendi',
-            icon: 'success',
-            confirmButtonText: 'Tamam',
-            confirmButtonColor: '#2531da'
-        });
+                kart.classList.add("siliniyor")
 
-        // URL'yi temizle
-        window.history.replaceState({}, document.title, window.location.pathname);
-    }
-
-
-    const baslik = document.querySelector('.baslik');
+                setTimeout(() =>{
+                kart.remove();
+                }, 300);
+            })
+        })
+    })
 </script>

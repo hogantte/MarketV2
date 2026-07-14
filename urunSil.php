@@ -7,9 +7,9 @@ if (!isset($_SESSION["giris"])) {
     exit;
 }
 
-if (isset($_GET['id'])) {
+if (isset($_POST['id'])) {
 
-    $silinecek_id = $_GET['id'];
+    $silinecek_id = $_POST['id'];
 
     $sorgu = $db->prepare("SELECT urun_foto FROM urunler WHERE id = ? and ekleyen_id = ?");
     $sorgu->execute([$silinecek_id, $_SESSION["kullanici_id"]]);
@@ -28,11 +28,11 @@ if (isset($_GET['id'])) {
     $sonuc = $kontrol->execute([$silinecek_id, $_SESSION["kullanici_id"]]);
 
     if ($sonuc) {
-
-        header("Location: urunler.php?durum=silindi");
+        echo "ok";
     } else {
-        header("Location: urunler.php?durum=hata");
+        echo "hata";
     }
+
 }
 
 ?>
