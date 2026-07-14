@@ -79,7 +79,7 @@ button span {
     transform: translateX(8px);
     color: white;
     font-weight: 600;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .ana-btn .icon {
@@ -88,7 +88,7 @@ button span {
 
 .icon {
     position: absolute;
-    transform: translateX(123px);
+    transform: translateX(132px);
     height: 40px;
     width: 50px;
     display: flex;

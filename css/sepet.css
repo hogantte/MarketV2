@@ -30,7 +30,7 @@
     align-items: center;
     width: 100%;
     gap: 0;
-    padding: 12px 0;
+    padding: 19px 0;
 }
 
 .baslik {
@@ -233,7 +233,76 @@
     text-align: center;
 }
 
-.teslim-btn{
-    color: rgb(0, 204, 0);
-    text-decoration: none;
+
+
+.ana-btn {
+    width: 220px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.23);
+
+    margin-left: 30px;
+}
+
+button,
+button span {
+    transition: 200ms;
+}
+
+.ana-btn .btn-span {
+    transform: translateX(10px);
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.ana-btn .icon {
+    border-left: 1px solid #007300;
+}
+
+.icon {
+    position: absolute;
+    transform: translateX(180px);
+    height: 40px;
+    width: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ana-btn svg {
+    width: 25px;
+    stroke: white;
+}
+
+
+
+.ana-btn:hover .btn-span {
+    color: transparent;
+}
+
+.ana-btn:hover .icon {
+    width: 220px;
+    border-left: none;
+    transform: translateX(0);
+}
+
+.ana-btn:focus {
+    outline: none;
+}
+
+.ana-btn:active .icon svg {
+    transform: scale(0.8);
+}
+
+.hazirla-btn {
+    background: #00a600;
+}
+
+.hazirla-btn:hover {
+    background: #009e00;
 }

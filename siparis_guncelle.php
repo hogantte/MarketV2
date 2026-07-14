@@ -13,4 +13,5 @@ $sql = $db->prepare("UPDATE siparisler SET Durum = ?  WHERE id = ?");
 $sql->execute([$durum , $id]);
 
 echo "ok";
+
 ?>

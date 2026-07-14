@@ -81,16 +81,24 @@ $durum_etiketleri = [
                         </span>
 
                         <span class="sutun-ad">
-                           <?= date('d.m.Y H:i', strtotime($siparis['tarih'])) ?>
+                            <?= date('d.m.Y H:i', strtotime($siparis['tarih'])) ?>
                         </span>
 
                         <span class="sutun-ad">
                             <?= number_format($siparis['toplam_fiyat'], 2, ',', '.') ?> TL
                         </span>
                         <?php if ($siparis['Durum'] === "onay_bekliyor" || $siparis['Durum'] === "hazirlaniyor" || $siparis["Durum"] === "teslim_edildi"): ?>
-                        <span class="sutun-ad"><?= $durum_etiketleri[$siparis['Durum']] ?></span>
+                            <span class="sutun-ad"><?= $durum_etiketleri[$siparis['Durum']] ?></span>
                         <?php elseif ($siparis['Durum'] === 'kargolandi'): ?>
-                        <a href="siparis-teslimEt.php?id=<?= $siparis['id'] ?>" class="teslim-btn" >Ürün Elinize Ulaştığını Onaylayın</a>
+                            <button class="ana-btn hazirla-btn" data-id="<?= $siparis['id'] ?>" data-durum="teslim_edildi"><span
+                                    class="btn-span">Siparişin Sana Ulaştımı</span><span class="icon"><svg
+                                        xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                                        viewBox="0 0 16 16" style="color: green;">
+                                        <path
+                                            d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
+                                    </svg>
+                                </span>
+                            </button>
                         <?php endif; ?>
                     </div>
 
@@ -109,3 +117,36 @@ $durum_etiketleri = [
 </body>
 
 </html>
+
+<script>
+    document.querySelectorAll(".ana-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            const id = this.dataset.id;
+            const durum = this.dataset.durum;
+
+            fetch("siparis_guncelle.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: `id=${id}&durum=${durum}`
+            })
+
+                .then(response => response.text())
+
+                .then(data => {
+                    console.log(data);
+                    this.style.opacity = "0";
+
+                    setTimeout(() => {
+                       this.outerHTML = `
+                        <span class="sutun-ad">
+                        Teslim Edildi
+                        </span>
+                        `;
+                    }, 300);
+                })
+        })
+
+    })
+</script>

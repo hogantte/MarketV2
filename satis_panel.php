@@ -167,7 +167,15 @@ $durum_etiketleri = [
 
                     console.log(data);
 
-                    location.reload();
+                    if (btn.dataset.durum == "hazirlaniyor") {
+                        btn.querySelector(".btn-span").textContent = "Siparişi Kargola!"
+                        btn.dataset.durum = "kargoda"
+                        this.classList.remove("hazirla-btn");
+                        this.classList.add("kargola-btn");
+                    }
+                    else if (btn.dataset.durum == "kargolandi"){
+                        this.remove();
+                    }
 
                 });
 
