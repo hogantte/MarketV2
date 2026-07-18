@@ -65,7 +65,9 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
     <title>Market</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/urunler.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="css/toast.css">
+
+    
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -152,13 +154,14 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
 
     </div>
 
+    <div id="toast-container" class="toast-container"></div>
 </body>
 
 </html>
 
 <script>
     document.querySelectorAll(".urun-sil").forEach(function (btn) {
-        btn.addEventListener("click" , function () {
+        btn.addEventListener("click", function () {
             const id = this.dataset.id;
             fetch("urunSil.php", {
                 method: "POST",
@@ -169,24 +172,28 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
                 body: `id=${id}`
             })
 
-            .then(response => response.text())
+                .then(response => response.text())
 
-            .then(data => {
-                
-                if(data != "ok"){
-                    allert("hata oluştu tekrar deneyin!");
-                    return;
-                }
-                this.style.opacity = "0";
+                .then(data => {
 
-                const kart = this.closest(".card");
+                    if (data != "ok") {
+                        allert("hata oluştu tekrar deneyin!");
+                        return;
+                    }
+                    this.style.opacity = "0";
 
-                kart.classList.add("siliniyor")
+                    const kart = this.closest(".card");
 
-                setTimeout(() =>{
-                kart.remove();
-                }, 300);
-            })
+                    toast("Ürün Silindi");
+
+                    kart.classList.add("siliniyor");
+
+                    setTimeout(() => {
+                        kart.remove();
+                    }, 300);
+                })
         })
     })
 </script>
+
+<script src="js/toast.js"></script>
