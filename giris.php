@@ -1,6 +1,8 @@
 <?php
 session_start();
 include_once 'baglan.php';
+
+$kullanici_adi = $_GET["kullanici_adi"] ?? "";
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +34,7 @@ include_once 'baglan.php';
                 <circle cx="12" cy="12" r="4" />
                 <path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8" />
             </svg>
-            <input type="text" placeholder="Kullanıcı Adın" id="kullanici_adi" required>
+            <input type="text" placeholder="Kullanıcı Adın" id="kullanici_adi" value="<?= htmlspecialchars($kullanici_adi) ?>" required>
         </div>
 
         <div class="alan">
