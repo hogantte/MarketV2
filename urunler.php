@@ -7,43 +7,12 @@ $kategori_sor = $db->query("SELECT * FROM kategoriler");
 $kategoriler = $kategori_sor->fetchAll(PDO::FETCH_ASSOC);
 
 
-$durum = "";
 
 if (!isset($_SESSION["giris"])) {
     header("Location: giris.php?hata=izinsiz-erisim");
     exit;
 }
 
-if ($_POST) {
-    $urun_adi = $_POST['urun_adi'];
-    $urun_aciklama = $_POST['urun_aciklama'];
-    $urun_fiyat = $_POST['urun_fiyat'];
-    $urun_stok = $_POST['urun_stok'];
-    $kategori = $_POST['kategori_id'];
-
-
-    if (empty($urun_adi) || empty($urun_aciklama) || empty($urun_fiyat) || empty($urun_stok) || empty($kategori)) {
-        $durum = "Lütfen Bütün Alanları Doldurun!";
-    } else {
-
-
-        $hedef_klasor = "urun-img/";
-        $dosya_adi = $_SESSION["kullanici_id"] . "_" . time() . "_" . basename($_FILES["urun_foto"]["name"]);
-        $hedef_yol = $hedef_klasor . $dosya_adi;
-
-        if (move_uploaded_file($_FILES["urun_foto"]["tmp_name"], $hedef_yol)) {
-
-            $kaydet = $db->prepare("INSERT INTO urunler (ekleyen_id , urun_ad , urun_aciklama , urun_fiyat , urun_stok , kategori_id , urun_foto) VALUES (?,?,?,?,?,?,?)");
-            $sonuc = $kaydet->execute([$_SESSION["kullanici_id"], $urun_adi, $urun_aciklama, $urun_fiyat, $urun_stok, $kategori, $dosya_adi]);
-
-            if ($sonuc) {
-                $durum = "Ürün Başarıyla Eklendi!";
-            } else {
-                $durum = "Bir Sorun Oluştu Tekrar Deneyin!";
-            }
-        }
-    }
-}
 
 $sorgu = $db->prepare("SELECT urunler.*, kategoriler.kategori_ad
                       FROM urunler
@@ -67,7 +36,7 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="css/urunler.css">
     <link rel="stylesheet" href="css/toast.css">
 
-    
+
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -83,15 +52,15 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
     <div class="urunler">
 
 
-        <form action="" method="post" class="ekle_card" enctype="multipart/form-data">
-            <span style="font-size: 18px;  color: red; height: 22px;"><?= $durum ?></span>
+        <form id="urunEkle-form" method="POST" class="ekle_card" enctype="multipart/form-data">
             <p>Ürün Ekle</p>
-            <input type="text" placeholder="Ürünün İsmi" required class="inputlar" name="urun_adi">
-            <textarea name="urun_aciklama" id="" placeholder="Ürünün Açıklaması" rows="4"></textarea>
-            <input type="number" step="0.01" placeholder="Ürünün Fiyatı" required class="inputlar" name="urun_fiyat">
-            <input type="number" placeholder="Stok Adedi" required class="inputlar" name="urun_stok">
+            <input type="text" placeholder="Ürünün İsmi" required class="inputlar" id="urun_adi" name="urun_adi">
+            <textarea id="urun_aciklama" name="urun_aciklama" placeholder="Ürünün Açıklaması" rows="4"></textarea>
+            <input type="number" step="0.01" placeholder="Ürünün Fiyatı" required class="inputlar" id="urun_fiyat"
+                name="urun_fiyat">
+            <input type="number" placeholder="Stok Adedi" required class="inputlar" id="urun_stok" name="urun_stok">
 
-            <select name="kategori_id" required>
+            <select id="kategori_id" name="kategori_id" required>
                 <option value="">Kategori Seçin</option>
                 <?php foreach ($kategoriler as $kategori): ?>
                     <option value="<?= $kategori['kategori_id'] ?>">
@@ -102,13 +71,13 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
 
 
             <div class="urun-foto-div">
-                <input type="file" name="urun_foto" id="urun-foto" accept="image/*" required>
+                <input type="file" id="urun-foto" name="urun_foto" accept="image/*" required>
                 <label for="urun-foto" class="urun-foto-label">
                     <span>Ürününüzün Görselini Yükleyin</span>
                 </label>
             </div>
 
-            <button class="ekle-btn"><span class="ekle-span">Ürünü Ekle</span><span class="icon"><svg
+            <button class="ekle-btn" id="urunEkle-btn"><span class="ekle-span">Ürünü Ekle</span><span class="icon"><svg
                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                         class="lucide lucide-plus-icon lucide-plus">
@@ -160,40 +129,107 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
 </html>
 
 <script>
-    document.querySelectorAll(".urun-sil").forEach(function (btn) {
-        btn.addEventListener("click", function () {
-            const id = this.dataset.id;
-            fetch("urunSil.php", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
+    const urunler = document.querySelector(".urunler");
 
-                body: `id=${id}`
-            })
+    urunler.addEventListener("click", function (e) {
+        const btn = e.target.closest(".urun-sil");
 
-                .then(response => response.text())
+        if (!btn) return;
 
-                .then(data => {
+        const id = btn.dataset.id;
 
-                    if (data != "ok") {
-                        allert("hata oluştu tekrar deneyin!");
-                        return;
-                    }
-                    this.style.opacity = "0";
+        fetch("urunSil.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
 
-                    const kart = this.closest(".card");
-
-                    toast("Ürün Silindi");
-
-                    kart.classList.add("siliniyor");
-
-                    setTimeout(() => {
-                        kart.remove();
-                    }, 300);
-                })
+            body: `id=${id}`
         })
+
+            .then(response => response.text())
+
+            .then(data => {
+
+                if (data != "ok") {
+                    toast("Hata oluştu , tekrar deneyin!")
+                    return;
+                }
+                btn.style.opacity = "0";
+
+                const kart = btn.closest(".card");
+
+                toast("Ürün Silindi");
+
+
+
+                kart.classList.add("siliniyor");
+
+                setTimeout(() => {
+                    kart.remove();
+                }, 300);
+            })
     })
+
+
+    const urunEkle_form = document.getElementById("urunEkle-form");
+
+    urunEkle_form.addEventListener("submit", function (e) {
+
+        e.preventDefault();
+
+        const formData = new FormData(urunEkle_form);
+
+        fetch("urun_ekle.php", {
+            method: "POST",
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+
+                if (data.basari) {
+                    toast(data.mesaj, data.durum);
+                    urun.urunEkle_form.reset();
+                    setTimeout(() => {
+                        const kart = document.createElement("div");
+                        kart.classList.add("card");
+
+                        kart.innerHTML = `
+                            <div class="urun-foto">
+                                <img src="urun-img/${data.urun.foto}">
+                            </div>
+
+                            <div class="urun-adi">
+                                <span>${data.urun.adi}</span>
+                            </div>
+
+                            <div class="urun-aciklama">
+                                ${data.urun.aciklama}
+                            </div>
+
+                            <div class="urun-kategori-stok">
+                                <span>Kategori: ${data.urun.kategori}</span>
+                                <span>Kalan Stok: ${data.urun.stok}</span>
+                            </div>
+
+                            <div class="urun-fiyat-sil-duzenle">
+                                <span class="fiyat">
+                                ${data.urun.fiyat} TL
+                                </span>
+                                <button class="urun-sil" data-id="${data.urun.id}">Ürünü Sil</button>
+                                <a href="urun_duzenle.php?id=${data.urun.id}">Ürünü Düzenle</a>
+                            </div>
+                        `;
+                        document.querySelector(".urunler").appendChild(kart);
+                        urunEkle_form.insertAdjacentElement("afterend", kart);
+                    }, 1000);
+                } else {
+                    toast(data.mesaj, data.durum);
+                }
+
+            });
+
+    });
 </script>
 
 <script src="js/toast.js"></script>
