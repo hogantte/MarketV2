@@ -48,12 +48,6 @@ foreach ($satilmis as $satir) {
     ];
 }
 
-$durum_etiketleri = [
-    'onay_bekliyor' => 'Onay Bekliyor',
-    'hazirlaniyor' => 'Hazırlanıyor',
-    'kargolandi' => 'Kargolandı',
-    'teslim_edildi' => 'Teslim Edildi'
-];
 
 ?>
 
@@ -142,44 +136,44 @@ $durum_etiketleri = [
 </html>
 
 <script>
-    document.querySelectorAll(".ana-btn").forEach(function (btn) {
+    const satispanel = document.querySelector(".satispanel");
 
-        btn.addEventListener("click", function () {
+    satispanel.addEventListener("click", function (e) {
+        const btn = e.target.closest(".ana-btn");
 
-            const id = this.dataset.id;
-            const durum = this.dataset.durum;
+        if (!btn) return;
 
-            fetch("siparis_guncelle.php", {
+        const id = btn.dataset.id;
+        const durum = btn.dataset.durum;
 
-                method: "POST",
+        fetch("siparis_guncelle.php", {
 
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
+            method: "POST",
 
-                body: `id=${id}&durum=${durum}`
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
 
-            })
+            body: `id=${id}&durum=${durum}`
 
-                .then(response => response.text())
+        })
 
-                .then(data => {
+            .then(response => response.text())
 
-                    console.log(data);
+            .then(data => {
 
-                    if (btn.dataset.durum == "hazirlaniyor") {
-                        btn.querySelector(".btn-span").textContent = "Siparişi Kargola!"
-                        btn.dataset.durum = "kargoda"
-                        this.classList.remove("hazirla-btn");
-                        this.classList.add("kargola-btn");
-                    }
-                    else if (btn.dataset.durum == "kargolandi"){
-                        this.remove();
-                    }
+                console.log(data);
 
-                });
+                if (btn.dataset.durum == "hazirlaniyor") {
+                    btn.querySelector(".btn-span").textContent = "Siparişi Kargola!"
+                    btn.dataset.durum = "kargolandi"
+                    btn.classList.remove("hazirla-btn");
+                    btn.classList.add("kargola-btn");
+                }
+                else if (btn.dataset.durum == "kargolandi") {
+                    btn.remove();
+                }
 
-        });
-
+            });
     });
 </script>
