@@ -23,11 +23,15 @@ try {
     $urunDetaylari = [];
 
     foreach ($_SESSION['sepet'] as $urun_id => $detay) {
+
+
+
         $miktar = (int) $detay['adet'];
 
-        $stmt = $db->prepare("SELECT id, urun_fiyat, urun_stok FROM urunler WHERE id = ? FOR UPDATE");
+        $stmt = $db->prepare("SELECT id, urun_fiyat, urun_stok, urun_ad FROM urunler WHERE id = ? FOR UPDATE ");
         $stmt->execute([$urun_id]);
-        $urun = $stmt->fetch();
+        $urun = $stmt->fetch(PDO::FETCH_ASSOC);
+
 
         if (!$urun) {
             throw new Exception("Ürün bulunamadı (id: $urun_id)");
@@ -38,6 +42,7 @@ try {
         }
 
         $urunDetaylari[$urun_id] = [
+            'ad' => $urun['urun_ad'],
             'miktar' => $miktar,
             'fiyat' => $urun['urun_fiyat'],
         ];
@@ -49,11 +54,29 @@ try {
     $siparisler->execute([$_SESSION["kullanici_id"], $toplam]);
     $siparis_id = $db->lastInsertId();
 
-    $siparis_urun = $db->prepare("INSERT INTO siparis_urunleri (siparis_id, urun_id, miktar, fiyat) VALUES (?, ?, ?, ?)");
+
+
+    $siparis_urun = $db->prepare("INSERT INTO siparis_urunleri (siparis_id, urun_id, urun_adi, miktar, fiyat) VALUES (?, ?, ?, ?, ? )");
     $stokGuncelle = $db->prepare("UPDATE urunler SET urun_stok = urun_stok - ? WHERE id = ?");
 
     foreach ($urunDetaylari as $urun_id => $detay) {
-        $siparis_urun->execute([$siparis_id, $urun_id, $detay['miktar'], $detay['fiyat']]);
+
+        $sql = "INSERT INTO siparis_urunleri
+(siparis_id, urun_id, urun_adi, miktar, fiyat)
+VALUES (?, ?, ?, ?, ?)";
+
+        echo $sql . "<br>";
+
+        print_r([
+            $siparis_id,
+            $urun_id,
+            $detay['ad'],
+            $detay['miktar'],
+            $detay['fiyat']
+        ]);
+
+        exit;
+
 
         $stokGuncelle->execute([$detay['miktar'], $urun_id]);
     }
