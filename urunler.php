@@ -189,7 +189,7 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
 
                 if (data.basari) {
                     toast(data.mesaj, data.durum);
-                    urun.urunEkle_form.reset();
+                    
                     setTimeout(() => {
                         const kart = document.createElement("div");
                         kart.classList.add("card");
@@ -222,7 +222,9 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
                         `;
                         document.querySelector(".urunler").appendChild(kart);
                         urunEkle_form.insertAdjacentElement("afterend", kart);
-                    }, 1000);
+                       
+                    }, 1000);     
+                     urunEkle_form.reset();              
                 } else {
                     toast(data.mesaj, data.durum);
                 }

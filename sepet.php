@@ -21,7 +21,8 @@ if (!isset($_SESSION["giris"])) {
     <title>MarketV2</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/sepet.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="css/toast.css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -83,9 +84,9 @@ if (!isset($_SESSION["giris"])) {
 
                 <div class="sepet-ozet">
                     <h3 class="toplam-yazi">Genel Toplam: <span class="toplam-fiyat"><?= $genel_toplam ?> TL</span></h3>
-                    <form method="post" action="satin_al.php">
-                        <button class="tamamla-btn">Alışverişi Tamamla</button>
-                    </form>
+
+                    <button class="tamamla-btn" id="alisveris-btn">Alışverişi Tamamla</button>
+
                 </div>
 
             <?php else: ?>
@@ -96,27 +97,59 @@ if (!isset($_SESSION["giris"])) {
             <?php endif; ?>
         </div>
 
-        
+
     </div>
 
+
+    
+    <div id="toast-container" class="toast-container"></div>
 </body>
 
 </html>
 
 <script>
-    const urlParams = new URLSearchParams(window.location.search);
+    const btn = document.getElementById("alisveris-btn");
 
-    if (urlParams.get('basarili') === 'siparis-alindi') {
+    btn.addEventListener("click", function (e) {
 
-        Swal.fire({
-            icon: 'success',
-            title: 'Siparişiniz Alındı',
-            text: 'Sepetinizdeki Ürünler Başarıyla Alındı Herhangi Bi Sorun Oluşursa Satıcıya Ulaşınız.',
-            timer: 1500,
-            showConfirmButton: true
-        });
+        e.preventDefault();
 
-        const temizUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-        window.history.replaceState({ path: temizUrl }, '', temizUrl);
-    }
+        fetch("satin_al.php", {
+            method: "POST",
+
+
+
+        })
+
+
+            .then(response => response.json())
+
+            .then(data => {
+
+                const sepet = btn.closest(".sepet");
+
+
+                if (data.basari) {
+                    toast(data.mesaj, data.durum);
+                    const kartsil = btn.closest(".sepet");
+                    const kartekle = document.createElement("div");
+
+                    kartekle.classList.add("bos-sepet");
+                    
+
+                    setTimeout(() => {
+                        sepet.innerHTML = `
+                            <div class="bos-sepet">
+                                <p>Sepetinizde henüz bir ürün bulunmuyor.</p>
+                                <a href="index.php" class="basla-btn">Alışverişe Başla</a>
+                            </div>
+                        `;
+                    }, 300);
+                }
+            });
+
+
+    })
 </script>
+
+<script src="js/toast.js"></script>
