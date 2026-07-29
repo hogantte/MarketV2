@@ -10,45 +10,16 @@ if (!isset($_SESSION["giris"])) {
 
 
 
-$sorgu = $db->prepare("
-    SELECT
-    siparisler.id AS siparis_id,
-    siparisler.tarih,
-    siparisler.toplam_fiyat,
-    siparisler.Durum,
-    siparis_urunleri.miktar,
-    siparis_urunleri.fiyat AS urun_birim_fiyat,
-    urunler.urun_ad
-    FROM siparisler
-    JOIN siparis_urunleri ON siparisler.id = siparis_urunleri.siparis_id
-    JOIN urunler ON siparis_urunleri.urun_id = urunler.id
-    WHERE urunler.ekleyen_id = ?
-    ORDER BY siparisler.id DESC
-");
+$sorgu = $db->prepare("SELECT siparisler.id, siparisler.toplam_fiyat, siparisler.Durum, siparisler.tarih FROM siparisler JOIN siparis_urunleri ON siparisler.id = siparis_urunleri.siparis_id JOIN urunler ON siparis_urunleri.urun_id = urunler.id  WHERE urunler.ekleyen_id = ?");
 $sorgu->execute([$_SESSION["kullanici_id"]]);
+$gruplu = $sorgu->fetchAll(PDO::FETCH_ASSOC);
 
-$satilmis = $sorgu->fetchALL(PDO::FETCH_ASSOC);
-
-$gruplu = [];
-foreach ($satilmis as $satir) {
-    $id = $satir['siparis_id'];
-    if (!isset($gruplu[$id])) {
-        $gruplu[$id] = [
-            'siparis_id' => $satir['siparis_id'],
-            'tarih' => $satir['tarih'],
-            'toplam_fiyat' => $satir['toplam_fiyat'],
-            'Durum' => $satir['Durum'],
-            'urunler' => []
-        ];
-    }
-    $gruplu[$id]['urunler'][] = [
-        'urun_ad' => $satir['urun_ad'],
-        'miktar' => $satir['miktar'],
-        'urun_birim_fiyat' => $satir['urun_birim_fiyat']
-    ];
-}
-
-
+$durum_etiketleri = [
+    'onay_bekliyor' => 'Onay Bekliyor',
+    'hazirlaniyor' => 'Hazırlanıyor',
+    'kargolandi' => 'Kargolandı',
+    'teslim_edildi' => 'Teslim Edildi'
+];
 ?>
 
 <!DOCTYPE html>
@@ -83,13 +54,13 @@ foreach ($satilmis as $satir) {
             </div>
             <?php foreach ($gruplu as $satilmislar): ?>
                 <div class="satilanlar">
-                    <div class="sutun">#<?= $satilmislar['siparis_id'] ?></div>
+                    <div class="sutun">#<?= $satilmislar['id'] ?></div>
                     <div class="sutun"><?= date('d.m.Y H:i', strtotime($satilmislar['tarih'])) ?></div>
                     <div class="sutun"><?= $satilmislar['toplam_fiyat'] ?></div>
                     <div class="sutun"><?= $durum_etiketleri[$satilmislar['Durum']] ?></div>
                     <div class="sutun">
                         <?php if ($satilmislar['Durum'] == 'onay_bekliyor'): ?>
-                            <button class="ana-btn hazirla-btn" data-id="<?= $satilmislar['siparis_id'] ?>"
+                            <button class="ana-btn hazirla-btn" data-id="<?= $satilmislar['id'] ?>"
                                 data-durum="hazirlaniyor"><span class="btn-span">Siparişi Onayla!</span><span class="icon"><svg
                                         xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
                                         viewBox="0 0 16 16" style="color: green;">
@@ -99,7 +70,7 @@ foreach ($satilmis as $satir) {
                                 </span>
                             </button>
                         <?php elseif ($satilmislar['Durum'] == 'hazirlaniyor'): ?>
-                            <button class="ana-btn kargola-btn" data-id="<?= $satilmislar['siparis_id'] ?>"
+                            <button class="ana-btn kargola-btn" data-id="<?= $satilmislar['id'] ?>"
                                 data-durum="kargolandi"><span class="btn-span">Siparişi Kargola!</span><span class="icon"><svg
                                         version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg"
                                         xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"
