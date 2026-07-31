@@ -94,64 +94,6 @@
 }
 
 
-.kaldir button {
-    width: 110px;
-    height: 40px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    background: #e62222;
-    border: none;
-    border-radius: 6px;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-    position: relative;
-    overflow: hidden;
-    transition: background 200ms;
-}
-
-.kaldir button .text {
-    transform: translateX(16px);
-    color: white;
-    font-weight: 500;
-    font-size: 14px;
-    transition: color 200ms, transform 200ms;
-    white-space: nowrap;
-}
-
-.kaldir button .icon {
-    position: absolute;
-    right: 0;
-    border-left: 1px solid #c41b1b;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: width 200ms, border 200ms;
-}
-
-.kaldir button svg {
-    width: 13px;
-    fill: #eee;
-    transition: transform 200ms;
-}
-
-.kaldir button:hover {
-    background: #ff3636;
-}
-
-.kaldir button:hover .text {
-    color: transparent;
-}
-
-.kaldir button:hover .icon {
-    width: 110px;
-    border-left: none;
-}
-
-.kaldir button:active .icon svg {
-    transform: scale(0.9);
-}
 
 .sepet-ozet {
     display: flex;
@@ -171,6 +113,26 @@
 .toplam-fiyat {
     color: #7defa7;
 }
+
+.sil-btn{
+    width: 110px;
+    height: 35px;
+    background-color: rgb(255, 5, 5);
+    border: none;
+    border-radius: 5px;
+    box-shadow: 3px 2px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    font-size: 16px;
+    color: white;
+    transition: 0.2s ease all;
+}
+
+.sil-btn:hover{
+    background-color: rgb(240, 0, 0);
+    transform: translateY(-2px);
+    box-shadow: 1px 1px 5px rgb(240, 0, 0, 0.8);
+}
+
 
 .tamamla-btn {
     position: static;

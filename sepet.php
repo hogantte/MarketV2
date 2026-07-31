@@ -64,26 +64,13 @@ if (!isset($_SESSION["giris"])) {
                         <span class="sutun-fiyat"><?= $urun_fiyati ?> TL</span>
                         <span class="sutun-toplam"><?= $ara_toplam ?> TL</span>
                         <div class="sutun-islem">
-                            <div class="kaldir">
-                                <a href="sepet-islem.php?islem=sil&id=<?= $id ?>" style="text-decoration: none;">
-                                    <button class="noselect">
-                                        <span class="text">Sil</span>
-                                        <span class="icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                                <path
-                                                    d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z">
-                                                </path>
-                                            </svg>
-                                        </span>
-                                    </button>
-                                </a>
-                            </div>
+                            <button class="sil-btn" data-id="<?= $id ?>">Sil</button>
                         </div>
                     </div>
                 <?php endforeach; ?>
 
                 <div class="sepet-ozet">
-                    <h3 class="toplam-yazi">Genel Toplam: <span class="toplam-fiyat"><?= $genel_toplam ?> TL</span></h3>
+                    <h3 class="toplam-yazi" >Genel Toplam: <span class="toplam-fiyat" id="genel-toplam"><?= $genel_toplam ?> TL</span></h3>
 
                     <button class="tamamla-btn" id="alisveris-btn">Alışverişi Tamamla</button>
 
@@ -101,7 +88,7 @@ if (!isset($_SESSION["giris"])) {
     </div>
 
 
-    
+
     <div id="toast-container" class="toast-container"></div>
 </body>
 
@@ -135,7 +122,7 @@ if (!isset($_SESSION["giris"])) {
                     const kartekle = document.createElement("div");
 
                     kartekle.classList.add("bos-sepet");
-                    
+
 
                     setTimeout(() => {
                         sepet.innerHTML = `
@@ -146,8 +133,70 @@ if (!isset($_SESSION["giris"])) {
                         `;
                     }, 300);
                 }
-            });
+            })
+    })
 
+
+    const kaldir = document.querySelector(".urunler");
+
+    kaldir.addEventListener("click", function (e) {
+        const kaldirBtn = e.target.closest(".sil-btn");
+
+        if (!kaldirBtn) return;
+
+        const id = kaldirBtn.dataset.id;
+
+
+        fetch("sepet-sil.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+
+            body: `id=${encodeURIComponent(id)}`
+        })
+
+
+            .then(response => response.json())
+
+            .then(data => {
+
+
+                if (data.basari) {
+                    toast(data.mesaj);
+                    if(data.adet > 0){
+                        document.getElementById("sepet-adet").textContent = data.adet;
+                    }else if (data.adet <= 0){
+                            document.getElementById("sepet-adet").textContent = "";
+                    }
+                    document.getElementById("genel-toplam").textContent = data.toplamFiyat + " TL";
+
+                    const sepetSil = kaldirBtn.closest(".sepetteki-urun");
+
+                    if (data.adet == 0) {
+                        const sepet = kaldirBtn.closest(".sepet");
+
+
+                        setTimeout(() => {
+                            sepet.innerHTML = `
+                            <div class="bos-sepet">
+                                <p>Sepetinizde henüz bir ürün bulunmuyor.</p>
+                                <a href="index.php" class="basla-btn">Alışverişe Başla</a>
+                            </div>
+                        `;
+                        }, 300);
+
+                    }
+
+
+                    setTimeout(() => {
+                        sepetSil.remove();
+                    }, 300);
+                } else {
+                    toast(data.mesaj, data.durum);
+
+                }
+            })
 
     })
 </script>

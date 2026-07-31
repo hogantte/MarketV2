@@ -16,17 +16,22 @@
 
         <li>
 
-            <?php if (isset($_SESSION['sepet']) && count($_SESSION['sepet']) > 0): ?>
-                <span class="seppet-adet">
-                    <?php
-                    $toplam_adet = 0;
-                    foreach ($_SESSION['sepet'] as $urun) {
-                        $toplam_adet += $urun['adet'];
-                    }
-                    echo $toplam_adet;
-                    ?>
-                </span>
-            <?php endif; ?>
+
+            <?php
+            $toplam_adet = 0;
+            if (isset($_SESSION['sepet'])) {
+                foreach ($_SESSION['sepet'] as $urun) {
+                    $toplam_adet = $toplam_adet += $urun['adet'];
+                }
+
+            }
+            ?>
+            <span class="seppet-adet" id="sepet-adet">
+            <?php if($toplam_adet > 0) : ?>
+                <?= $toplam_adet ?>
+
+            <?php endif ?>
+            </span>
 
             <a href="sepet.php">Sepet</a>
 

@@ -1,40 +1,58 @@
 <?php
-require_once 'baglan.php';
 session_start();
+require_once 'baglan.php';
+
+$toplam_adet = 0;
 
 if (!isset($_SESSION["giris"])) {
-    header("Location: giris.php?hata=izinsiz-erisim");
-    exit;
-} elseif (!isset($_SERVER['HTTP_REFERER'])) {
-    header("Location: index.php");
-    exit;
-} elseif (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    header("Location: index.php?hata=gecersiz-urun");
-    exit;
-} elseif (isset($_GET['islem']) && $_GET['islem'] == "ekle") {
-    $id = $_GET['id'];
-
-    $sorgu = $db->prepare("SELECT * FROM urunler WHERE id = ?");
-    $sorgu->execute([$id]);
-    $urun = $sorgu->fetch(PDO::FETCH_ASSOC);
-
-    if ($urun) {
-        if (isset($_SESSION['sepet'][$id])) {
-            $_SESSION['sepet'][$id]['adet'] += 1; 
-        } 
-        else {
-            $_SESSION['sepet'][$id] = [
-                'ad' => $urun["urun_ad"],
-                'fiyat' => $urun["urun_fiyat"],
-                'foto' => $urun["urun_foto"],
-                'adet' => 1
-            ];
-        }
-
-        header("Location: " . $_SERVER['HTTP_REFERER'] . "?durum=sepet-eklendi");
-        exit;
-    }
+    echo json_encode([
+        "basari" => false,
+        "mesaj"  => "Giriş Yapmanız Gerekiyor",
+        "durum"  => "hata" 
+    ]);
+    exit();
+} elseif (!isset($_POST['id']) || !is_numeric($_POST['id'])) {
+    echo json_encode([
+        "basari" => false,
+        "mesaj" => "Ürün Eklenirken Bir Hata Oluştu",
+        "durum" => "hata"
+    ]);
+    exit();
 }
+$id = $_POST['id'];
+
+$sorgu = $db->prepare("SELECT * FROM urunler WHERE id = ?");
+$sorgu->execute([$id]);
+$urun = $sorgu->fetch(PDO::FETCH_ASSOC);
+
+if ($urun) {
+    if (isset($_SESSION['sepet'][$id])) {
+        $_SESSION['sepet'][$id]['adet'] += 1;
+    } else {
+        $_SESSION['sepet'][$id] = [
+            'ad' => $urun["urun_ad"],
+            'fiyat' => $urun["urun_fiyat"],
+            'foto' => $urun["urun_foto"],
+            'adet' => 1
+        ];
+    }
+
+
+
+    foreach ($_SESSION['sepet'] as $urun) {
+    $toplam_adet = $toplam_adet += $urun['adet'];
+    }
+
+
+
+    echo json_encode([
+        "basari" => true,
+        "mesaj"  => "Ürün Başarıyla Eklendi",
+        "adet"   => $toplam_adet
+    ]);
+    exit();
+}
+
 
 
 ?>

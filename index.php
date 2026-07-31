@@ -24,7 +24,8 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
     <title>Market</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/index.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="css/toast.css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -63,29 +64,54 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
                 <div class="kategori">
                     <span>Kategori : <?= $urun["kategori_ad"] ?></span>
                 </div>
-                <div class="fiyat-sepet"><span><?= number_format($urun["urun_fiyat"], 2, ',', '.') ?> TL</span> <a
-                        href="sepet_ekle.php?islem=ekle&id=<?= $urun['id'] ?>">Sepete Ekle</a> </div>
+                <div class="fiyat-sepet">
+                    <span><?= number_format($urun["urun_fiyat"], 2, ',', '.') ?> TL</span>
+                    <button class="sepet-btn"  data-id="<?= $urun['id'] ?>">Sepete Ekle</button>
+                </div>
             </div>
         <?php endforeach ?>
     </div>
+
+    <div id="toast-container" class="toast-container"></div>
+
 </body>
 
 </html>
 
 <script>
-    const urlParams = new URLSearchParams(window.location.search);
+    const ekle = document.querySelector(".urunler");
 
-    if (urlParams.get('durum') === 'sepet-eklendi') {
-        
-        Swal.fire({
-            icon: 'success',
-            title: 'Sepete Eklendi!',
-            text: 'Ürününüz başarıyla sepete eklendi.',
-            timer: 1500, 
-            showConfirmButton: false
-        });
+    ekle.addEventListener("click", function (e) {
+        const btn = e.target.closest(".sepet-btn")
 
-        const temizUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-        window.history.replaceState({path: temizUrl}, '', temizUrl);
-    }
+        if (!btn) return;
+
+        const id = btn.dataset.id;
+
+        fetch("sepet_ekle.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+
+            body: `id=${id}`
+        })
+
+            .then(response => response.json())
+
+            .then(data => {
+                if (data.basari) {
+                    toast(data.mesaj);
+                    document.getElementById("sepet-adet").textContent = data.adet;
+                    
+                }else if (!data.basari){
+                    toast(data.mesaj , data.durum);
+                    
+                }else{
+                    toast("Bir Hata Oluştu" , "hata")
+                }
+            })
+    })
 </script>
+
+<script src="js/toast.js"></script>
