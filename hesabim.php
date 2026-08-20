@@ -55,6 +55,7 @@ if (!isset($_SESSION["giris"])) {
         </div>
         <div class="linkler">
             <a href="siparisler.php">Siparişlerim</a>
+            <a href="urunler.php">Ürünlerim</a>
             <a href="satis_panel.php">Satış Panelim</a>
         </div>
     </div>

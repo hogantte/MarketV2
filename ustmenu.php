@@ -12,7 +12,6 @@
 
     <ul class="ust-linkler">
 
-        <li><a href="urunler.php">Ürünler</a></li>
 
         <li>
 
