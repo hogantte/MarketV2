@@ -1,6 +1,11 @@
 <?php
 session_start();
+session_unset();
 session_destroy();
 
-header("Location: giris.php")
-?>
+    ?>
+
+<script>
+    sessionStorage.setItem("cikisMesaji", "Başarıyla çıkış yaptınız.");
+    window.location.href = "index.php";
+</script>

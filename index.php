@@ -66,7 +66,7 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                 <div class="fiyat-sepet">
                     <span><?= number_format($urun["urun_fiyat"], 2, ',', '.') ?> TL</span>
-                    <button class="sepet-btn"  data-id="<?= $urun['id'] ?>">Sepete Ekle</button>
+                    <button class="sepet-btn" data-id="<?= $urun['id'] ?>">Sepete Ekle</button>
                 </div>
             </div>
         <?php endforeach ?>
@@ -103,15 +103,26 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
                 if (data.basari) {
                     toast(data.mesaj);
                     document.getElementById("sepet-adet").textContent = data.adet;
-                    
-                }else if (!data.basari){
-                    toast(data.mesaj , data.durum);
-                    
-                }else{
-                    toast("Bir Hata Oluştu" , "hata")
+
+                } else if (!data.basari) {
+                    toast(data.mesaj, data.durum);
+
+                } else {
+                    toast("Bir Hata Oluştu", "hata")
                 }
             })
-    })
+    });
+
+    const mesaj = sessionStorage.getItem("cikisMesaji");
+
+    if (mesaj) {
+
+        setTimeout(() => {
+            toast(mesaj);
+        sessionStorage.removeItem("cikisMesaji");
+        }, 1000);
+        
+    }
 </script>
 
 <script src="js/toast.js"></script>
