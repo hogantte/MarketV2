@@ -1,3 +1,7 @@
+
+
+
+
 <div class="ustmenu">
 
     <a href="index.php">
@@ -11,33 +15,38 @@
     </a>
 
     <ul class="ust-linkler">
+        <?php if (isset($_SESSION["giris"])): ?>
+
+            <li>
 
 
-        <li>
+                <?php
+                $toplam_adet = 0;
+                if (isset($_SESSION['sepet'])) {
+                    foreach ($_SESSION['sepet'] as $urun) {
+                        $toplam_adet = $toplam_adet += $urun['adet'];
+                    }
 
-
-            <?php
-            $toplam_adet = 0;
-            if (isset($_SESSION['sepet'])) {
-                foreach ($_SESSION['sepet'] as $urun) {
-                    $toplam_adet = $toplam_adet += $urun['adet'];
                 }
+                ?>
+                <span class="seppet-adet" id="sepet-adet">
+                    <?php if ($toplam_adet > 0): ?>
+                        <?= $toplam_adet ?>
 
-            }
-            ?>
-            <span class="seppet-adet" id="sepet-adet">
-            <?php if($toplam_adet > 0) : ?>
-                <?= $toplam_adet ?>
+                    <?php endif ?>
+                </span>
 
-            <?php endif ?>
-            </span>
+                <a href="sepet.php">Sepet</a>
 
-            <a href="sepet.php">Sepet</a>
+            </li>
 
-        </li>
+            <li><a href="hesabim.php">Hesabım</a></li>
 
-        <li><a href="hesabim.php">Hesabım</a></li>
+        <?php else:?>
+            <li><a href="giris.php">Giriş Yap</a></li>
+        <?php endif ?>
 
+        
     </ul>
 
 </div>
