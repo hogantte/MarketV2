@@ -37,7 +37,7 @@
     margin-bottom: 10px;
     margin-top: 0px;
     font-size: 25px;
-   
+
 }
 
 .ekle_card .inputlar {
@@ -89,7 +89,7 @@
     text-decoration: underline;
     cursor: pointer;
     text-shadow: 2px 3px 7px rgba(0, 0, 0, 0.23);
-    
+
 }
 
 
@@ -176,7 +176,7 @@ button span {
     transition: all .3s ease;
 }
 
-.card.siliniyor{
+.card.siliniyor {
     opacity: 0;
     transform: scale(.95);
     max-height: 0;
@@ -220,7 +220,8 @@ button span {
     height: 150px;
 
 }
-.urun-kategori-stok{
+
+.urun-kategori-stok {
     display: flex;
     margin-left: 30px;
     justify-content: space-between;
@@ -229,7 +230,7 @@ button span {
     font-weight: 500;
     color: #273F4F;
 }
-    
+
 
 
 .urun-fiyat-sil-duzenle {
@@ -252,18 +253,98 @@ button span {
 
 }
 
-.urun-sil{
+.urun-sil {
     background-color: rgb(224, 0, 0);
     border: none;
-    width: 120px;
+    width: 100px;
     color: white;
-    height: 33px;
-    font-size: 18px;
+    height: 25px;
+    font-size: 16px;
     border-radius: 3px;
     box-shadow: 3px 1px 2px rgba(0, 0, 0, 0.23);
     cursor: pointer;
 }
 
-.urun-sil:hover{
+.urun-sil:hover {
+    background-color: red;
+}
+
+.urun-duzenle {
+    background-color: rgb(224, 0, 0);
+    border: none;
+    width: 150px;
+    color: white;
+    height: 25px;
+    font-size: 16px;
+    border-radius: 3px;
+    box-shadow: 3px 1px 2px rgba(0, 0, 0, 0.23);
+    cursor: pointer;
+}
+
+
+.guncel-ad {
+    margin-top: 9px;
+    padding-left: 0px;
+    font-size: 20px;
+    border: none;
+    border-bottom: 1px solid black;
+    font-weight: 600;
+
+}
+
+.guncel-aciklama {
+    color: gray;
+    font-size: 15px;
+    height: 120px;
+    min-height: 120px;
+    max-height: 120px;
+
+    width: 252px;
+    min-width: 252px;
+    max-width: 252px;
+    border: none;
+    border-left: 1px solid black;
+    border-top: 1px solid black;
+}
+
+.guncel-fiyat {
+    font-size: 20px;
+    font-weight: 500;
+    color: #273F4F;
+    width: 100px;
+    padding: 0px;
+    border: none;
+    border-bottom: 1px solid black;
+    padding-bottom: 2px;
+}
+
+.guncel-kategori{
+    width: 155px;
+    font-size: 16px;
+    border: none;
+    border-bottom: 1px solid black;
+    background-color: white;
+}
+
+.guncel-stok{
+    width: 105px;
+    font-size: 16px;
+    border: none;
+    border-bottom: 1px solid black;
+}
+
+.guncel-btn{
+    margin-right: 57px;
+    width: 105px;
+    font-size: 16px;
+    background-color: rgb(224, 0, 0);
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.2);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.guncel-btn:hover{
     background-color: red;
 }

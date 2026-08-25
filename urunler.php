@@ -116,7 +116,11 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
                         <?= $urun["urun_fiyat"] ?> TL
                     </span>
                     <button class="urun-sil" data-id="<?= $urun['id'] ?>">Ürünü Sil</button>
-                    <a href="urun_duzenle.php?id=<?= $urun["id"] ?>">Ürünü Düzenle</a>
+                    <button class="urun-duzenle" data-duzenlenecek-id="<?= $urun['id'] ?>"
+                        data-foto="<?= $urun["urun_foto"] ?>" data-ad="<?= htmlspecialchars($urun["urun_ad"]) ?>"
+                        data-aciklama="<?= htmlspecialchars($urun["urun_aciklama"]) ?>"
+                        data-kategori="<?= $urun["kategori_ad"] ?>" data-stok="<?= $urun["urun_stok"] ?>"
+                        data-fiyat="<?= $urun["urun_fiyat"] ?>">Ürünü Düzenle</button>
                 </div>
             </div>
         <?php endforeach ?>
@@ -189,7 +193,7 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
 
                 if (data.basari) {
                     toast(data.mesaj, data.durum);
-                    
+
                     setTimeout(() => {
                         const kart = document.createElement("div");
                         kart.classList.add("card");
@@ -222,9 +226,9 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
                         `;
                         document.querySelector(".urunler").appendChild(kart);
                         urunEkle_form.insertAdjacentElement("afterend", kart);
-                       
-                    }, 1000);     
-                     urunEkle_form.reset();              
+
+                    }, 1000);
+                    urunEkle_form.reset();
                 } else {
                     toast(data.mesaj, data.durum);
                 }
@@ -232,6 +236,157 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
             });
 
     });
+
+
+    const urunDuzenle = document.querySelector(".urunler");
+
+    urunDuzenle.addEventListener("click", function (e) {
+
+        const btn = e.target.closest(".urun-duzenle");
+
+        if (!btn) return;
+
+        const duzenlenecekId = btn.dataset.duzenlenecekId;
+        const foto = btn.dataset.foto;
+        const ad = btn.dataset.ad;
+        const aciklama = btn.dataset.aciklama;
+        const stok = btn.dataset.stok;
+        const fiyat = btn.dataset.fiyat;
+
+        const duzenleme = btn.closest(".card");
+
+
+        duzenleme.innerHTML = `
+        <form id="urunDuzenle-form" method="POST"  data-urun-id="${duzenlenecekId}" data-foto="${foto}" enctype="multipart/form-data">
+    <div class="urun-foto">
+        <img src="urun-img/${foto}">
+    </div>
+
+    <div class="urun-adi">
+        <input type="text" value="${ad}" required class="guncel-ad" id="guncel_ad">
+    </div>
+
+    <div class="urun-aciklama">
+        <textarea id="guncel_aciklama" required  class="guncel-aciklama">${aciklama}</textarea>
+    </div>
+
+    <div class="urun-kategori-stok">
+        <span>Kategori :
+        <select id="guncel_kategori_id" name="kategori_id" required class="guncel-kategori">
+                <?php foreach ($kategoriler as $kategori): ?>
+                    <option value="<?= $kategori['kategori_id'] ?>">
+                        <?= $kategori['kategori_ad'] ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </span>
+        <span> Kalan Stok :
+        <input type="number" value="${stok}" required class="guncel-stok" id="guncel_stok">
+        </span>
+    </div>
+
+    <div class="urun-fiyat-sil-duzenle">
+    <div>
+         <input type="number" step = "0.01" value="${fiyat}" required class="guncel-fiyat" id="guncel_fiyat">
+         <span style="font-size: 20px; font-weight: 500;color: #273F4F;"> TL </span>
+    </div>     
+    <button  type="submit" class= "guncel-btn" id="guncel-btn" >Kaydet</button>
+    </div>
+                
+    </form>
+    `;
+    });
+
+
+    const guncel_urunler = document.querySelector(".urunler");
+
+    guncel_urunler.addEventListener("submit", function (e) {
+
+        const form = e.target.closest("#urunDuzenle-form");
+
+        if (!form) return;
+
+        e.preventDefault();
+
+        const guncel_ad = form.querySelector("#guncel_ad").value;
+        const guncel_aciklama = form.querySelector("#guncel_aciklama").value;
+        const guncel_kategori_id = form.querySelector("#guncel_kategori_id").value;
+        const guncel_stok = form.querySelector("#guncel_stok").value;
+        const guncel_fiyat = form.querySelector("#guncel_fiyat").value;
+        const urun_id = form.dataset.urunId;
+        const foto = form.dataset.foto;
+
+        console.log({
+            guncel_ad,
+            guncel_aciklama,
+            guncel_kategori_id,
+            guncel_stok,
+            guncel_fiyat,
+            urun_id
+        });
+
+        fetch("urun_duzenle.php", {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+
+            body:
+                `guncel_ad=${encodeURIComponent(guncel_ad)}` +
+                `&guncel_aciklama=${encodeURIComponent(guncel_aciklama)}` +
+                `&guncel_kategori_id=${encodeURIComponent(guncel_kategori_id)}` +
+                `&guncel_stok=${encodeURIComponent(guncel_stok)}` +
+                `&guncel_fiyat=${encodeURIComponent(guncel_fiyat)}` +
+                `&urun_id=${encodeURIComponent(urun_id)}`
+        })
+            .then(response => response.json())
+            .then(data => {
+
+                toast(data.mesaj, data.durum);
+
+                if (data.basari) {
+                    const card = form.closest(".card");
+                    card.innerHTML = `
+                     <div class="urun-foto">
+                    <img src="urun-img/${foto}">
+                </div>
+
+                <div class="urun-adi">
+                    <span>${guncel_ad}</span>
+                </div>
+
+                <div class="urun-aciklama">
+                ${guncel_aciklama}
+                </div>
+
+                <div class="urun-kategori-stok">
+                    <span>Kategori : ${data.kategori}</span>
+                    <span> Kalan Stok : ${guncel_stok}</span>
+                </div>
+
+                <div class="urun-fiyat-sil-duzenle">
+                    <span class="fiyat">
+                ${guncel_fiyat} TL
+                    </span>
+                    <button class="urun-sil" data-id="${urun_id}">Ürünü Sil</button>
+                    <button class="urun-duzenle" data-duzenlenecek-id="${urun_id}"
+                        data-foto="${foto}" data-ad="${guncel_ad}"
+                        data-aciklama="${guncel_aciklama}"
+                        data-kategori="${data.kategori}" data-stok="${guncel_stok}"
+                        data-fiyat="${guncel_fiyat}">Ürünü Düzenle</button>
+                </div>
+                    `;
+                }
+                else{
+                    toast(data.mesaj , data.durum)
+                    return;
+                }
+            })
+
+    });
+
+
 </script>
 
 <script src="js/toast.js"></script>
