@@ -14,14 +14,16 @@ $sorgu = $db->prepare("
         siparisler.tarih,
         siparisler.toplam_fiyat,
         siparisler.Durum,
-        GROUP_CONCAT(urunler.urun_ad SEPARATOR ', ') AS urunler
+        GROUP_CONCAT(siparis_urunleri.urun_adi SEPARATOR ', ') AS urunler
     FROM siparisler
     JOIN siparis_urunleri
         ON siparisler.id = siparis_urunleri.siparis_id
-    JOIN urunler
-        ON siparis_urunleri.urun_id = urunler.id
     WHERE siparisler.kullanici_id = ?
-    GROUP BY siparisler.id, siparisler.tarih, siparisler.toplam_fiyat
+    GROUP BY
+        siparisler.id,
+        siparisler.tarih,
+        siparisler.toplam_fiyat,
+        siparisler.Durum
     ORDER BY siparisler.tarih DESC
 ");
 
