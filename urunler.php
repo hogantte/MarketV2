@@ -54,6 +54,16 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
 
         <form id="urunEkle-form" method="POST" class="ekle_card" enctype="multipart/form-data">
             <p>Ürün Ekle</p>
+
+            <div class="urun-foto-div">
+                <input type="file" id="urun-foto" name="urun_foto" accept="image/*">
+                <label for="urun-foto" class="urun-foto-label">
+                    <span>Ürününüzün Görselini Yükleyin</span>
+                </label>
+            </div>
+            <img id="foto-onizleme" src="urun-img/default-product.png" alt="Ürün önizleme" class="ekle_img"
+                width="200px" height="100px">
+
             <input type="text" placeholder="Ürünün İsmi" required class="inputlar" id="urun_adi" name="urun_adi">
             <textarea id="urun_aciklama" name="urun_aciklama" placeholder="Ürünün Açıklaması" rows="4"></textarea>
             <input type="number" step="0.01" placeholder="Ürünün Fiyatı" required class="inputlar" id="urun_fiyat"
@@ -70,12 +80,7 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
             </select>
 
 
-            <div class="urun-foto-div">
-                <input type="file" id="urun-foto" name="urun_foto" accept="image/*" required>
-                <label for="urun-foto" class="urun-foto-label">
-                    <span>Ürününüzün Görselini Yükleyin</span>
-                </label>
-            </div>
+
 
             <button class="ekle-btn" id="urunEkle-btn"><span class="ekle-span">Ürünü Ekle</span><span class="icon"><svg
                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -175,6 +180,23 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
             })
     })
 
+    const fotoInput = document.getElementById("urun-foto");
+    const fotoOnizleme = document.getElementById("foto-onizleme");
+
+    fotoInput.addEventListener("change", function () {
+
+        const dosya = this.files[0];
+
+        if (!dosya) return;
+
+        fotoOnizleme.src = URL.createObjectURL(dosya);
+        
+        if (!dosya) {
+            fotoOnizleme.src = "urun-img/default-product.png";
+            return;
+        }
+
+    });
 
     const urunEkle_form = document.getElementById("urunEkle-form");
 
@@ -229,6 +251,7 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
 
                     }, 1000);
                     urunEkle_form.reset();
+                    fotoOnizleme.src = "urun-img/default-product.png";
                 } else {
                     toast(data.mesaj, data.durum);
                 }
@@ -378,13 +401,15 @@ $urunler = $sorgu->fetchAll(PDO::FETCH_ASSOC);
                 </div>
                     `;
                 }
-                else{
-                    toast(data.mesaj , data.durum)
+                else {
+                    toast(data.mesaj, data.durum)
                     return;
                 }
             })
 
     });
+
+
 
 
 </script>

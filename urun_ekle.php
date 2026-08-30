@@ -7,6 +7,7 @@ if (!isset($_SESSION["giris"])) {
     exit;
 }
 
+
 if ($_POST){
     $urun_adi = $_POST['urun_adi'];
     $urun_aciklama = $_POST['urun_aciklama'];
